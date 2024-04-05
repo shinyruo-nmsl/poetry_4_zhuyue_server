@@ -26,6 +26,7 @@ export type RouteConfig = {
   path: string;
   middlewareConfig: {
     option: OptionalMiddlewareOption;
+    customValidate?: (req: Request, res: Response, next: NextFunction) => void;
     customHandle(req: Request, res: Response, next: NextFunction): void;
   };
 };
@@ -42,9 +43,13 @@ export function handleRouterMiddleware(router: Router, config: RouteConfig) {
   Object.keys(middlewareConfig.option).forEach((k: any) => {
     const handler = middlewares[k];
     if (handler) {
-      router[method](path, handler(...middlewareConfig.option[k]));
+      router[method](path, handler(middlewareConfig.option[k]));
     }
   });
+
+  if (middlewareConfig.customValidate) {
+    router[method](path, middlewareConfig.customValidate);
+  }
 
   router[method](path, middlewareConfig.customHandle);
 }

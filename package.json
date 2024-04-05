@@ -5,7 +5,7 @@
   "main": "start.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "PRETTY_PRINT=true nodemon start.ts",
+    "start:dev": "PRETTY_PRINT=true nodemon -r dotenv/config start.ts",
     "build": "tsc && node .dist/start.js"
   },
   "repository": {
@@ -20,7 +20,9 @@
   "homepage": "https://github.com/shinyruo-nmsl/poetry_4_zhuyue_server#readme",
   "dependencies": {
     "express": "^4.19.2",
-    "sequelize": "^6.37.1"
+    "sequelize": "^6.37.1",
+    "dotenv": "^16.4.5",
+    "mysql2": "^3.9.3"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",

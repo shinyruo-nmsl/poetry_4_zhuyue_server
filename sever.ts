@@ -1,15 +1,18 @@
 import { Server } from "http";
 import express from "express";
 
-import routers from "./service";
-import handleMiddleware from "./util/middlewareHandler";
+import routers from "./page";
+import handleMiddleware from "./service/middlewareHandler";
 
 let connection: Server;
 
 export async function startWebServer() {
   const app = express();
+  app.all("*", function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*"); //当允许携带cookies此处的白名单不能写’*’
+    next();
+  });
   handleMiddleware(app, routers);
-  console.log("hhhhh");
   const apiAddress = await openConnection(app);
   return apiAddress;
 }
