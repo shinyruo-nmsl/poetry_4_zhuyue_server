@@ -5,7 +5,7 @@ import { Pagination, PaginationQuery } from "../../global-type/model";
 export interface AuthorAndKeyWordsQuery extends PaginationQuery {
   keyword1: string;
   keyword2: string;
-  author: string;
+  author?: string;
 }
 
 export async function queryPoetriesByAuthorAndKeyWords(
@@ -13,21 +13,22 @@ export async function queryPoetriesByAuthorAndKeyWords(
 ): Promise<Pagination<PoetryModelFields>> {
   const { limit, pageNo, keyword1, keyword2, author } = query;
 
-  console.log(query);
-
-  const where = {
-    author,
-    content: {
-      [Op.or]: [
-        {
-          [Op.substring]: keyword1,
-        },
-        {
-          [Op.substring]: keyword2,
-        },
-      ],
-    },
+  const content = {
+    [Op.or]: [
+      {
+        [Op.regexp]: `^.*${keyword1}[^。]*${keyword2}.*$`,
+      },
+      {
+        [Op.regexp]: `^.*${keyword2}[^。]*${keyword1}.*$`,
+      },
+    ],
   };
+  const where = author
+    ? {
+        author,
+        content,
+      }
+    : { content };
 
   const [data, total] = await Promise.all([
     getPoetryModel().findAll({ where, offset: limit * pageNo, limit }),
