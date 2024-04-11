@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "PRETTY_PRINT=true nodemon -r dotenv/config start.ts",
-    "build": "tsc && node .dist/start.js"
+    "build": "tsc && node .dist/start.js",
+    "tsc": "tsc",
+    "start:prod": "node -r dotenv/config .dist/start.js"
   },
   "repository": {
     "type": "git",
