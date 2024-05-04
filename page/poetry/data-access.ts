@@ -1,6 +1,7 @@
 import { Op } from "sequelize";
 import getPoetryModel, { PoetryModelFields } from "../../model/poetry";
 import { Pagination, PaginationQuery } from "../../global-type/model";
+import { CustomError } from "../../service/errorHandler";
 
 export interface AuthorAndKeyWordsQuery extends PaginationQuery {
   keyword1: string;
@@ -30,15 +31,19 @@ export async function queryPoetriesByAuthorAndKeyWords(
       }
     : { content };
 
-  const [data, total] = await Promise.all([
-    getPoetryModel().findAll({ where, offset: limit * pageNo, limit }),
-    getPoetryModel().count({ where }),
-  ]);
+  try {
+    const [data, total] = await Promise.all([
+      getPoetryModel().findAll({ where, offset: limit * pageNo, limit }),
+      getPoetryModel().count({ where }),
+    ]);
 
-  return {
-    data,
-    total,
-    limit,
-    pageNo,
-  };
+    return {
+      data,
+      total,
+      limit,
+      pageNo,
+    };
+  } catch (err) {
+    throw new CustomError(err.message, "database");
+  }
 }

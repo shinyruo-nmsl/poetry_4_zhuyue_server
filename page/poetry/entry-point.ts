@@ -4,38 +4,38 @@ import {
   AuthorAndKeyWordsQuery,
 } from "./data-access";
 import { RouteConfig } from "../../service/middlewareHandler";
+import { CustomError } from "../../service/errorHandler";
+
+type GetPoetriesByAuthorAndKeyWordsReq = Request & {
+  query: AuthorAndKeyWordsQuery & { limit: string; pageNo: string };
+};
 
 const getPoetriesByAuthorAndKeyWordsRoute: RouteConfig = {
   method: "get",
   path: "/getPoetriesByAuthorAndKeyWords",
   middlewareConfig: {
     option: {},
-    async customHandle(
-      req: Request & {
-        query: AuthorAndKeyWordsQuery & { limit: string; pageNo: string };
-      },
-      res: Response,
-      next: NextFunction
-    ) {
-      try {
-        const [limit, pageNo] = [
-          Number(req.query.limit),
-          Number(req.query.pageNo),
-        ];
+    customValidate(req: GetPoetriesByAuthorAndKeyWordsReq) {
+      const [limit, pageNo] = [
+        Number(req.query.limit),
+        Number(req.query.pageNo),
+      ];
 
-        if (isNaN(limit) || isNaN(pageNo)) {
-          res.status(400).send({ msg: "参数错误" });
-          return;
-        }
-        const data = await queryPoetriesByAuthorAndKeyWords({
-          ...req.query,
-          limit,
-          pageNo,
-        });
-        res.send(data);
-      } catch (err) {
-        next(err);
+      if (isNaN(limit) || isNaN(pageNo)) {
+        throw new CustomError("参数错误", "validate");
       }
+    },
+    async customHandle(req: GetPoetriesByAuthorAndKeyWordsReq, res: Response) {
+      const [limit, pageNo] = [
+        Number(req.query.limit),
+        Number(req.query.pageNo),
+      ];
+      const data = await queryPoetriesByAuthorAndKeyWords({
+        ...req.query,
+        limit,
+        pageNo,
+      });
+      res.send(data);
     },
   },
 };

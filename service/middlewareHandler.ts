@@ -47,11 +47,22 @@ export function handleRouterMiddleware(router: Router, config: RouteConfig) {
     }
   });
 
+  const catchError = (func: Function) => {
+    return async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        await func(req, res, next);
+        next();
+      } catch (error) {
+        next(error);
+      }
+    };
+  };
+
   if (middlewareConfig.customValidate) {
-    router[method](path, middlewareConfig.customValidate);
+    router[method](path, catchError(middlewareConfig.customValidate));
   }
 
-  router[method](path, middlewareConfig.customHandle);
+  router[method](path, catchError(middlewareConfig.customHandle));
 }
 
 export default function handleMiddleware(
