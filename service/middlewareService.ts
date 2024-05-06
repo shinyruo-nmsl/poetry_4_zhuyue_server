@@ -5,6 +5,7 @@ import express, {
   Response,
   NextFunction,
 } from "express";
+import bodyParser from "body-parser";
 import {
   getDefaultMiddlewares,
   getOptionalMiddlewares,
@@ -69,6 +70,7 @@ export default function handleMiddleware(
   app: Express,
   routerConfigs: RouterConfig[]
 ) {
+  app.use(bodyParser.urlencoded({ extended: true }));
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
 

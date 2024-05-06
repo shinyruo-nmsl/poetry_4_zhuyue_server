@@ -1,10 +1,11 @@
-import { Request, Response, NextFunction } from "express";
+import { Response } from "express";
+import { Request } from "../../global-type/request";
 import {
   queryPoetriesByAuthorAndKeyWords,
   AuthorAndKeyWordsQuery,
 } from "./data-access";
-import { RouteConfig } from "../../service/middlewareHandler";
-import { CustomError } from "../../service/errorHandler";
+import { RouteConfig } from "../../service/middlewareService";
+import { CustomError } from "../../service/errorService";
 
 type GetPoetriesByAuthorAndKeyWordsReq = Request & {
   query: AuthorAndKeyWordsQuery & { limit: string; pageNo: string };
@@ -14,7 +15,9 @@ const getPoetriesByAuthorAndKeyWordsRoute: RouteConfig = {
   method: "get",
   path: "/getPoetriesByAuthorAndKeyWords",
   middlewareConfig: {
-    option: {},
+    option: {
+      auth: true,
+    },
     customValidate(req: GetPoetriesByAuthorAndKeyWordsReq) {
       const [limit, pageNo] = [
         Number(req.query.limit),

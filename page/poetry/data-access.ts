@@ -1,7 +1,7 @@
 import { Op } from "sequelize";
 import getPoetryModel, { PoetryModelFields } from "../../model/poetry";
 import { Pagination, PaginationQuery } from "../../global-type/model";
-import { CustomError } from "../../service/errorHandler";
+import { CustomError } from "../../service/errorService";
 
 export interface AuthorAndKeyWordsQuery extends PaginationQuery {
   keyword1: string;

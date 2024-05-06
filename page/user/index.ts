@@ -1,9 +1,9 @@
 import { RouterConfig } from "../../service/middlewareService";
 import routes from "./entry-point";
 
-const poetry: RouterConfig = {
-  path: "/poetry",
+const user: RouterConfig = {
+  path: "/user",
   routes,
 };
 
-export default poetry;
+export default user;

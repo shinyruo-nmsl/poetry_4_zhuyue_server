@@ -1,12 +1,8 @@
-import { Request, Response, NextFunction } from "express";
-
+import authHandler from "./authHandler";
 import errorHandler from "./errorHandler";
 
 const Optional_Middleware_Map = {
-  test: (a: number) => (req: Request, res: Response, next: NextFunction) => {
-    console.log("test");
-    next();
-  },
+  auth: (need: true) => authHandler,
 };
 
 const Default_Middleware_Map = {

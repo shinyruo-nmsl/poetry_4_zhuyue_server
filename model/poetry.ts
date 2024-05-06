@@ -6,7 +6,7 @@ import {
   CreationOptional,
 } from "sequelize";
 
-import getDbConnection from "../service/dbConnection";
+import getPoemsDatabase from "./database/poems";
 
 export interface PoetryModelFields
   extends Model<
@@ -20,7 +20,7 @@ export interface PoetryModelFields
 }
 
 export default function getPoetryModel() {
-  const poetryModel = getDbConnection().define<PoetryModelFields>(
+  const poetryModel = getPoemsDatabase().define<PoetryModelFields>(
     "shici",
     {
       id: {
