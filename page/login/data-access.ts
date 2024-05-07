@@ -26,16 +26,13 @@ export async function addNewUser(params: UserRegistParam) {
   const { userId, userName, password, role } = params;
 
   try {
-    const ok = await getUserLoginModel().create({
+    await getUserLoginModel().create({
       user_id: userId,
       user_name: userName,
       password,
       role,
     });
-    if (!ok) {
-      throw new CustomError("用户名重复~", "other");
-    }
   } catch (error) {
-    throw new CustomError(error.message, "database");
+    throw new CustomError("用户名重复~", "validate");
   }
 }
