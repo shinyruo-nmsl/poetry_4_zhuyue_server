@@ -4,10 +4,10 @@ import getUserLoginModel from "../../model/userLogin";
 import { CustomError } from "../../service/errorService";
 import { Role } from "../../global-type/user";
 
-export async function findUserByName(userName: string) {
+export async function findUserByName(account: string) {
   try {
     const user = await getUserLoginModel().findOne({
-      where: { user_name: userName },
+      where: { account },
     });
     return user;
   } catch (error) {
@@ -17,18 +17,18 @@ export async function findUserByName(userName: string) {
 
 export type UserRegistParam = {
   userId: string;
-  userName: string;
+  account: string;
   password: string;
   role?: Role;
 };
 
 export async function addNewUser(params: UserRegistParam) {
-  const { userId, userName, password, role } = params;
+  const { userId, account, password, role } = params;
 
   try {
     await getUserLoginModel().create({
       user_id: userId,
-      user_name: userName,
+      account,
       password,
       role,
     });

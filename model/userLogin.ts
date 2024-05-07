@@ -15,6 +15,7 @@ export interface UserLoginModelFields
     InferCreationAttributes<UserLoginModelFields>
   > {
   user_id: string;
+  account: string;
   user_name: string;
   password: string;
   role: Role;
@@ -28,12 +29,16 @@ export default function getUserLoginModel() {
         type: DataTypes.STRING,
         primaryKey: true,
       },
+      account: {
+        type: DataTypes.STRING,
+      },
       user_name: {
         type: DataTypes.STRING,
       },
       password: {
         type: DataTypes.STRING,
       },
+
       role: {
         type: DataTypes.STRING,
         defaultValue: "ordinary",

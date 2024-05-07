@@ -19,8 +19,12 @@ export default function (
       case "validate":
         res.status(400).json({ msg: error.message }).end();
         break;
-      case "auth":
+      case "login":
         res.status(401).json({ msg: "登录失效~" }).end();
+        break;
+      case "auth":
+        res.status(403).json({ msg: "暂无权限~" }).end();
+        break;
     }
   } else {
     res.status(500).json({ msg: "服务端错误~" }).end();

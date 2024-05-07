@@ -1,8 +1,7 @@
 import { Response } from "express";
-import jwt, { JwtPayload } from "jsonwebtoken";
 import { Request } from "../../global-type/request";
 import { RouteConfig } from "../../service/middlewareService";
-import { findUserByID } from "./data-access";
+import { getUserLoginInfoByToken } from "../../service/domain/user";
 
 const getUserLoginInfoRouter: RouteConfig = {
   method: "get",
@@ -12,23 +11,8 @@ const getUserLoginInfoRouter: RouteConfig = {
     async customHandle(req: Request, res: Response) {
       const token = req.header("Authorization");
 
-      if (!token) {
-        res.status(200).send({ role: "visitor" }).end();
-        return;
-      }
-
-      const decoded = jwt.verify(
-        token,
-        process.env.JWT_SECRET_KEY
-      ) as JwtPayload;
-
-      const {
-        user_name: userName,
-        user_id: userId,
-        role,
-      } = await findUserByID(decoded.userId);
-
-      res.status(200).send({ userName, userId, role }).end();
+      const user = await getUserLoginInfoByToken(token);
+      res.status(200).send(user).end();
     },
   },
 };
