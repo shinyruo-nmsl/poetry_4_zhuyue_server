@@ -25,7 +25,7 @@ function validateUser(params: { userName: string; password: string }) {
   }
 }
 
-type LoginReq = Request & { body: { userName: string; password: string } };
+type LoginReq = Request & { body: { account: string; password: string } };
 
 const loginRoute: RouteConfig = {
   method: "post",
@@ -36,9 +36,9 @@ const loginRoute: RouteConfig = {
       validateUser(req.body);
     },
     async customHandle(req: LoginReq, res: Response) {
-      const { userName, password } = req.body;
+      const { account, password } = req.body;
 
-      const token = await validateUserLogin({ userName, password });
+      const token = await validateUserLogin({ account, password });
       res.status(200).json({ token });
     },
   },
@@ -55,9 +55,9 @@ const registRoute: RouteConfig = {
       validateUser(req.body);
     },
     async customHandle(req: RegistReq, res: Response) {
-      const { userName, password, role } = req.body;
+      const { account, password, role } = req.body;
 
-      await registNewUser({ userName, password, role });
+      await registNewUser({ account, password, role });
       res.status(200).json({ msg: "注册成功~" }).end();
     },
   },

@@ -1,20 +1,30 @@
 import { NextFunction, Response } from "express";
-import jwt, { JwtPayload } from "jsonwebtoken";
 import { Request } from "../global-type/request";
-import { CustomError } from "../service/errorService";
+import {
+  getUserLoginInfoByToken,
+  getUserLoginInfoById,
+} from "../service/domain/user";
 
-export default function (req: Request, res: Response, next: NextFunction) {
+export default async function (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   const token = req.header("Authorization");
 
-  if (!token) {
-    next(new CustomError("", "auth"));
-  }
-
+  // 优化：如果用户登录校验成功了，就没必要解析token了
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY) as JwtPayload;
-    req.userId = decoded.userId;
-    next();
-  } catch (error) {
-    next(new CustomError("", "auth"));
+    if (req.userId) {
+      const { role } = await getUserLoginInfoById(req.userId);
+      req.role = role;
+      next();
+    } else {
+      const { userId, role } = await getUserLoginInfoByToken(token);
+      req.userId = userId;
+      req.role = role;
+      next();
+    }
+  } catch (err) {
+    next(err);
   }
 }

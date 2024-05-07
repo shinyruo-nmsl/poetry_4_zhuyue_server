@@ -1,8 +1,10 @@
+import loginHandler from "./loginHandler";
 import authHandler from "./authHandler";
 import errorHandler from "./errorHandler";
 
 const Optional_Middleware_Map = {
   auth: (need: true) => authHandler,
+  login: (need: true) => loginHandler,
 };
 
 const Default_Middleware_Map = {

@@ -6,12 +6,12 @@ import { findUserByName, addNewUser } from "./data-access";
 import type { UserRegistParam } from "./data-access";
 
 export async function validateUserLogin(params: {
-  userName: string;
+  account: string;
   password: string;
 }) {
-  const { userName, password } = params;
+  const { account, password } = params;
 
-  const user = await findUserByName(userName);
+  const user = await findUserByName(account);
 
   if (!user) {
     throw new CustomError("暂无此用户~", "validate");
@@ -30,7 +30,7 @@ export async function validateUserLogin(params: {
 }
 
 export async function registNewUser(params: Omit<UserRegistParam, "userId">) {
-  const { userName, password, role } = params;
+  const { account, password, role } = params;
 
   const userId = v4();
   let hashPassword: string;
@@ -41,6 +41,6 @@ export async function registNewUser(params: Omit<UserRegistParam, "userId">) {
   }
 
   if (hashPassword) {
-    await addNewUser({ userId, userName, password: hashPassword, role });
+    await addNewUser({ userId, account, password: hashPassword, role });
   }
 }
