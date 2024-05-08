@@ -5,15 +5,15 @@ import { validateUserLogin, registNewUser } from "./domain";
 import { RouteConfig } from "../../service/middlewareService";
 import { CustomError } from "../../service/errorService";
 
-function validateUser(params: { userName: string; password: string }) {
-  const { userName, password } = params;
+function validateUser(params: { account: string; password: string }) {
+  const { account, password } = params;
 
-  if (!userName) {
-    throw new CustomError("用户名为空~", "validate");
+  if (!account) {
+    throw new CustomError("账号为空~", "validate");
   }
 
-  if (userName.length > 20) {
-    throw new CustomError("用户名太长~", "validate");
+  if (account.length > 20) {
+    throw new CustomError("账号太长~", "validate");
   }
 
   if (!password) {
