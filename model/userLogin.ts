@@ -16,8 +16,9 @@ export interface UserLoginModelFields
   > {
   user_id: string;
   account: string;
-  user_name: string;
+  user_name: string | null;
   password: string;
+  avatar: string | null;
   role: Role;
 }
 
@@ -34,14 +35,18 @@ export default function getUserLoginModel() {
       },
       user_name: {
         type: DataTypes.STRING,
+        defaultValue: null,
       },
       password: {
         type: DataTypes.STRING,
       },
-
       role: {
         type: DataTypes.STRING,
         defaultValue: "ordinary",
+      },
+      avatar: {
+        type: DataTypes.STRING,
+        defaultValue: null,
       },
     },
     {
