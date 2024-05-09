@@ -10,9 +10,9 @@ export async function getUserLoginInfoById(_userId: string) {
     return { role: "visitor" as Role };
   }
 
-  const { user_name: userName, user_id: userId, role, account } = user;
+  const { user_name: userName, user_id: userId, role, account, avatar } = user;
 
-  return { userName, userId, role, account };
+  return { userName, userId, role, account, avatar };
 }
 
 export async function getUserLoginInfoByToken(token?: string) {

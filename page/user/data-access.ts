@@ -25,14 +25,14 @@ export async function updateUserName(userId: string, userName: string) {
 
 export type UserDisplayInfo = {
   userId: string;
-  useName: string;
+  userName: string;
   avatar: string;
 };
 
 export async function updateUserDisplayInfo(info: UserDisplayInfo) {
   try {
     await getUserLoginModel().update(
-      { user_name: info.useName, avatar: info.avatar },
+      { user_name: info.userName, avatar: info.avatar },
       { where: { user_id: info.userId } }
     );
   } catch {

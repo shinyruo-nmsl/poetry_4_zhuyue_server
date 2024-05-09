@@ -34,7 +34,7 @@ const updateUserAvatarRouter: RouteConfig = {
     },
     async customHandle(req: UpdateUserAvatarReq, res: Response) {
       await updateUserAvatar(req.userId!, req.body.avatar);
-      res.status(200).end();
+      res.status(200).json({ msg: "修改成功" }).end();
     },
   },
 };
@@ -50,7 +50,7 @@ const updateUserNameRouter: RouteConfig = {
     },
     async customHandle(req: UpdateUserNameReq, res: Response) {
       await updateUserName(req.userId!, req.body.userName);
-      res.status(200).end();
+      res.status(200).json({ msg: "修改成功" }).end();
     },
   },
 };
@@ -68,7 +68,7 @@ const updateUserDisplayInfoRouter: RouteConfig = {
     },
     async customHandle(req: UpdateUserDisplayInfoReq, res: Response) {
       await updateUserDisplayInfo({ userId: req.userId!, ...req.body });
-      res.status(200).end();
+      res.status(200).json({ msg: "修改成功" }).end();
     },
   },
 };
