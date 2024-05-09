@@ -16,7 +16,8 @@ const getPoetriesByAuthorAndKeyWordsRoute: RouteConfig = {
   path: "/getPoetriesByAuthorAndKeyWords",
   middlewareConfig: {
     option: {
-      login: true,
+      auth: { role: "ordinary" },
+      overtime: { timeout: 10000 },
     },
     customValidate(req: GetPoetriesByAuthorAndKeyWordsReq) {
       const [limit, pageNo] = [

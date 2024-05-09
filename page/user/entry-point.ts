@@ -30,7 +30,7 @@ const updateUserAvatarRouter: RouteConfig = {
   path: "/updateUserAvatar",
   middlewareConfig: {
     option: {
-      auth: true,
+      auth: { role: "ordinary" },
     },
     async customHandle(req: UpdateUserAvatarReq, res: Response) {
       await updateUserAvatar(req.userId!, req.body.avatar);
@@ -46,7 +46,7 @@ const updateUserNameRouter: RouteConfig = {
   path: "/updateUserName",
   middlewareConfig: {
     option: {
-      auth: true,
+      auth: { role: "ordinary" },
     },
     async customHandle(req: UpdateUserNameReq, res: Response) {
       await updateUserName(req.userId!, req.body.userName);
@@ -64,7 +64,7 @@ const updateUserDisplayInfoRouter: RouteConfig = {
   path: "/updateUserDisplayInfo",
   middlewareConfig: {
     option: {
-      auth: true,
+      auth: { role: "ordinary" },
     },
     async customHandle(req: UpdateUserDisplayInfoReq, res: Response) {
       await updateUserDisplayInfo({ userId: req.userId!, ...req.body });

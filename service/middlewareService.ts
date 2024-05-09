@@ -6,18 +6,14 @@ import express, {
   NextFunction,
 } from "express";
 import bodyParser from "body-parser";
-import {
-  getDefaultMiddlewares,
-  getOptionalMiddlewares,
-  OptionalMiddlewareOption,
-} from "../middleware";
+import MiddleWare, { MiddlewaresConfig } from "../middleware";
 import { HttpMethod } from "../global-type/request";
 
 export type RouteConfig = {
   method: HttpMethod;
   path: string;
   middlewareConfig: {
-    option: OptionalMiddlewareOption;
+    option: MiddlewaresConfig;
     customValidate?: (req: Request, res: Response, next: NextFunction) => void;
     customHandle(req: Request, res: Response, next: NextFunction): void;
   };
@@ -44,7 +40,7 @@ export default function handleMiddleware(
     app.use(cfg.path, router);
   }
 
-  const { errorHandler } = getDefaultMiddlewares();
+  const { errorHandler } = MiddleWare.middleWares;
   app.use(errorHandler);
 }
 
@@ -63,29 +59,16 @@ export function handleRouterMiddleware(router: Router, config: RouteConfig) {
       }
     };
   };
-
   if (middlewareConfig.customValidate) {
     router[method](path, catchError(middlewareConfig.customValidate));
   }
-
   router[method](path, catchError(middlewareConfig.customHandle));
 }
 
 function handleOptionalMiddleware(router: Router, config: RouteConfig) {
   const { method, path, middlewareConfig } = config;
-  const middlewares = getOptionalMiddlewares();
-
+  const middlewares = MiddleWare.middleWares;
   const optionKeys = Object.keys(middlewareConfig.option);
-
-  // 如果需要登录，先走登录再走鉴权
-  const loginIndex = optionKeys.findIndex((k) => k === "login");
-  const authIndex = optionKeys.findIndex((k) => k === "auth");
-  if (loginIndex > -1 && authIndex > -1 && loginIndex > authIndex) {
-    [optionKeys[loginIndex], optionKeys[authIndex]] = [
-      optionKeys[authIndex],
-      optionKeys[loginIndex],
-    ];
-  }
 
   optionKeys.forEach((k: any) => {
     const handler = middlewares[k];
@@ -93,4 +76,9 @@ function handleOptionalMiddleware(router: Router, config: RouteConfig) {
       router[method](path, handler(middlewareConfig.option[k]));
     }
   });
+
+  // 有些中间件是必须处理的，如果用户没有配置，则默认处理
+  // if (!optionKeys.includes("overtime")) {
+  //   router[method](path, middlewares.overtime());
+  // }
 }

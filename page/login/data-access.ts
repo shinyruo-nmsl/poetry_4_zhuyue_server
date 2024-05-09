@@ -1,12 +1,12 @@
 import { Op } from "sequelize";
 
-import getUserLoginModel from "../../model/userLogin";
+import UserLoginModel from "../../model/userLoginModel";
 import { CustomError } from "../../service/errorService";
 import { Role } from "../../global-type/user";
 
 export async function findUserByName(account: string) {
   try {
-    const user = await getUserLoginModel().findOne({
+    const user = await UserLoginModel.model.findOne({
       where: { account },
     });
     return user;
@@ -26,7 +26,7 @@ export async function addNewUser(params: UserRegistParam) {
   const { userId, account, password, role } = params;
 
   try {
-    await getUserLoginModel().create({
+    await UserLoginModel.model.create({
       user_id: userId,
       account,
       password,

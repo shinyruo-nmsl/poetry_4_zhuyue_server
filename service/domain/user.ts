@@ -30,3 +30,16 @@ export async function getUserLoginInfoByToken(token?: string) {
 
   return getUserLoginInfoById(userId);
 }
+
+export class UserPermission {
+  private static roles: Role[] = ["visitor", "ordinary", "admin"];
+
+  static hasPermission(auth: Role, user: Role) {
+    const userIndex = this.roles.findIndex((r) => r === user);
+    if (userIndex < 0) return false;
+
+    const authIndex = this.roles.findIndex((r) => r === auth);
+
+    return userIndex >= authIndex;
+  }
+}
