@@ -1,9 +1,9 @@
-import getUserLoginModel from "../../model/userLogin";
+import UserLoginModel from "../../model/userLoginModel";
 import { CustomError } from "../../service/errorService";
 
 export async function updateUserAvatar(userId: string, avatar: string) {
   try {
-    await getUserLoginModel().update(
+    await UserLoginModel.model.update(
       { avatar },
       { where: { user_id: userId } }
     );
@@ -14,7 +14,7 @@ export async function updateUserAvatar(userId: string, avatar: string) {
 
 export async function updateUserName(userId: string, userName: string) {
   try {
-    await getUserLoginModel().update(
+    await UserLoginModel.model.update(
       { user_name: userName },
       { where: { user_id: userId } }
     );
@@ -31,7 +31,7 @@ export type UserDisplayInfo = {
 
 export async function updateUserDisplayInfo(info: UserDisplayInfo) {
   try {
-    await getUserLoginModel().update(
+    await UserLoginModel.model.update(
       { user_name: info.useName, avatar: info.avatar },
       { where: { user_id: info.userId } }
     );

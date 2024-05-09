@@ -1,5 +1,5 @@
 import { Op } from "sequelize";
-import getPoetryModel, { PoetryModelFields } from "../../model/poetry";
+import PoetryModel, { PoetryModelFields } from "../../model/poetryModel";
 import { Pagination, PaginationQuery } from "../../global-type/model";
 import { CustomError } from "../../service/errorService";
 
@@ -33,8 +33,8 @@ export async function queryPoetriesByAuthorAndKeyWords(
 
   try {
     const [data, total] = await Promise.all([
-      getPoetryModel().findAll({ where, offset: limit * pageNo, limit }),
-      getPoetryModel().count({ where }),
+      PoetryModel.model.findAll({ where, offset: limit * pageNo, limit }),
+      PoetryModel.model.count({ where }),
     ]);
 
     return {

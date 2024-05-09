@@ -1,30 +1,22 @@
-import loginHandler from "./loginHandler";
+import overtimeHandler from "./overtimeHandler";
 import authHandler from "./authHandler";
+import sseHandler from "./sseHandler";
 import errorHandler from "./errorHandler";
 
-const Optional_Middleware_Map = {
-  auth: (need: true) => authHandler,
-  login: (need: true) => loginHandler,
-};
+export default class MiddleWare {
+  static readonly middleWares = {
+    auth: authHandler,
+    sse: sseHandler,
+    overtime: overtimeHandler,
+    errorHandler: () => errorHandler,
+  };
+}
 
-const Default_Middleware_Map = {
-  errorHandler,
-};
-
-export type OptionalMiddlewares = typeof Optional_Middleware_Map;
-
-export type OptionalMiddlewareKeys = keyof OptionalMiddlewares;
-
-export type OptionalMiddlewareOption = Partial<{
-  [k in OptionalMiddlewareKeys]: Parameters<OptionalMiddlewares[k]>[0];
+type Middlewares = typeof MiddleWare.middleWares;
+type MiddlewaresKeys = keyof Middlewares;
+type GetKeyParam<K extends MiddlewaresKeys> = Parameters<Middlewares[K]>[0];
+export type MiddlewaresConfig = Partial<{
+  [k in MiddlewaresKeys as GetKeyParam<k> extends undefined
+    ? never
+    : k]: GetKeyParam<k>;
 }>;
-
-// 可选的中间件
-export function getOptionalMiddlewares() {
-  return Optional_Middleware_Map;
-}
-
-// 默认的中间件
-export function getDefaultMiddlewares() {
-  return Default_Middleware_Map;
-}

@@ -1,4 +1,10 @@
-export type ErrorCode = "database" | "validate" | "auth" | "login" | "other";
+export type ErrorCode =
+  | "database"
+  | "validate"
+  | "auth"
+  | "login"
+  | "overtime"
+  | "other";
 
 export class CustomError extends Error {
   constructor(message: string, private code: ErrorCode, private text?: string) {
