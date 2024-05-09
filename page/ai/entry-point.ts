@@ -14,19 +14,22 @@ const gptTestRouter: RouteConfig = {
       const intervalId = setInterval(() => {
         count++;
         if (count > 5) {
-          console.log("没到这里？");
           clearInterval(intervalId);
-          //   res.write(JSON.stringify({ data: `data: \n\n`, done: true }));
-          res.write(`data:hahah \n\n done`);
+          // https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#event_stream_format
+          res.write(
+            `data:${JSON.stringify({ data: `data: \n\n`, done: true })}\n\n`
+          );
+          res.write(`hahah`);
         } else {
           const newData = "New SSE data";
-          //   res.write(
-          //     JSON.stringify({ data: `data: ${newData}\n\n`, done: false })
-          //   );
-          res.write(`data: ${newData}\n\n`);
+          res.write(
+            `data:${JSON.stringify({
+              data: `${newData}: \n\n`,
+              done: false,
+            })}\n\n`
+          );
         }
       }, 1000);
-
       req.on("close", () => {
         console.log("结束了");
         res.end();

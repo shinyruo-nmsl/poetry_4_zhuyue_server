@@ -25,6 +25,11 @@ export default function (
       case "auth":
         res.status(403).json({ msg: "暂无权限~" }).end();
         break;
+      case "overtime":
+        res
+          .status(408)
+          .json({ msg: error.message || "连接超时~" })
+          .end();
     }
   } else {
     res.status(500).json({ msg: "服务端错误~" }).end();
