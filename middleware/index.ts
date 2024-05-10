@@ -8,7 +8,7 @@ export default class MiddleWare {
     auth: authHandler,
     sse: sseHandler,
     overtime: overtimeHandler,
-    errorHandler: () => errorHandler,
+    error: errorHandler,
   };
 }
 

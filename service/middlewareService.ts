@@ -40,8 +40,8 @@ export default function handleMiddleware(
     app.use(cfg.path, router);
   }
 
-  const { errorHandler } = MiddleWare.middleWares;
-  app.use(errorHandler);
+  const { error } = MiddleWare.middleWares;
+  app.use(error());
 }
 
 export function handleRouterMiddleware(router: Router, config: RouteConfig) {

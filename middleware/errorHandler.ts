@@ -1,38 +1,35 @@
 import { NextFunction, Request, Response } from "express";
 import { CustomError } from "../service/errorService";
 
-export default function (
-  error: Error,
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  if (error instanceof CustomError) {
-    switch (error.errorCode) {
-      case "database":
-      case "other":
-        res
-          .status(500)
-          .json({ msg: error.message || "服务端错误~" })
-          .end();
-        break;
-      case "validate":
-        res.status(400).json({ msg: error.message }).end();
-        break;
-      case "login":
-        res.status(401).json({ msg: "登录失效~" }).end();
-        break;
-      case "auth":
-        res.status(403).json({ msg: "暂无权限~" }).end();
-        break;
-      case "overtime":
-        res
-          .status(408)
-          .json({ msg: error.message || "连接超时~" })
-          .end();
+export default function () {
+  return (error: Error, req: Request, res: Response, next: NextFunction) => {
+    if (error instanceof CustomError) {
+      switch (error.errorCode) {
+        case "database":
+        case "other":
+          res
+            .status(500)
+            .json({ msg: error.message || "服务端错误~" })
+            .end();
+          break;
+        case "validate":
+          res.status(400).json({ msg: error.message }).end();
+          break;
+        case "login":
+          res.status(401).json({ msg: "登录失效~" }).end();
+          break;
+        case "auth":
+          res.status(403).json({ msg: "暂无权限~" }).end();
+          break;
+        case "overtime":
+          res
+            .status(408)
+            .json({ msg: error.message || "连接超时~" })
+            .end();
+      }
+    } else {
+      res.status(500).json({ msg: "服务端错误~" }).end();
+      throw error;
     }
-  } else {
-    res.status(500).json({ msg: "服务端错误~" }).end();
-    throw error;
-  }
+  };
 }

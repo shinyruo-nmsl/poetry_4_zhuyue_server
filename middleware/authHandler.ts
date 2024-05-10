@@ -29,7 +29,6 @@ export default function ({ role }: { role: Exclude<Role, "visitor"> }) {
     if (role === "ordinary") {
       req.role = "ordinary";
       next();
-      return;
     }
 
     try {
@@ -38,7 +37,7 @@ export default function ({ role }: { role: Exclude<Role, "visitor"> }) {
         req.role = _role;
         next();
       } else {
-        throw new CustomError("暂无访问权限", "auth");
+        next(new CustomError("暂无访问权限", "auth"));
       }
     } catch (err) {
       next(err);
