@@ -15,6 +15,7 @@ const getUserLoginInfoRouter: RouteConfig = {
   middlewareConfig: {
     option: {},
     async customHandle(req: Request, res: Response) {
+      res.setHeader("Cache-Control", "no-store");
       const token = req.header("Authorization");
 
       const user = await getUserLoginInfoByToken(token);
