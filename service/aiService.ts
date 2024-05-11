@@ -39,9 +39,9 @@ function sleep(val): Promise<string> {
 class AIStreamTest implements AsyncIterable<string> {
   async *[Symbol.asyncIterator]() {
     yield sleep("你好");
-    yield sleep("我是ai机器人"),
-      yield sleep(
-        "fjsdfjwdjfklkadlkasjdkasjdkasjdkasjdkasjdkasjdaksjdaksdjaksjdaskdjaskldjasdasdas"
-      );
+    yield sleep("我是ai机器人");
+    yield sleep(
+      "fjsdfjwdjfklkadlkasjdkasjdkasjdkasjdkasjdkasjdaksjdaksdjaksjdaskdjaskldjasdasdas"
+    );
   }
 }

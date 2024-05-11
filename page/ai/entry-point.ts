@@ -8,7 +8,7 @@ const getGPtContentRouter: RouteConfig = {
   method: "get",
   path: "/gptContent",
   middlewareConfig: {
-    option: { sse: true },
+    option: { auth: { role: "ordinary" }, sse: true },
     async customHandle(
       req: Request & { query: { prompt: string } },
       res: Response

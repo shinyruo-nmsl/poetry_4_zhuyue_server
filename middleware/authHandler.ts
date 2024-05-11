@@ -29,6 +29,7 @@ export default function ({ role }: { role: Exclude<Role, "visitor"> }) {
     if (role === "ordinary") {
       req.role = "ordinary";
       next();
+      return;
     }
 
     try {
