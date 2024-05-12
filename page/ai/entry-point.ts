@@ -14,6 +14,7 @@ const getGPtContentRouter: RouteConfig = {
       res: Response
     ) {
       const stream = await getAIChatStream(req.role!, req.query.prompt);
+      console.log("start stream");
       let con = "";
       for await (const content of stream) {
         con += content;
