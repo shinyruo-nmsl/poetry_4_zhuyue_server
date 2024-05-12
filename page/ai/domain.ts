@@ -1,5 +1,5 @@
 import { Role } from "../../global-type/user";
-import { AIServer } from "../../service/aiService";
+import { AIServer } from "../../service/domain/ai";
 import { CustomError } from "../../service/errorService";
 
 export async function getAIChatStream(role: Role, message: string) {
@@ -7,5 +7,5 @@ export async function getAIChatStream(role: Role, message: string) {
     throw new CustomError("暂无访问权限", "auth");
   }
 
-  return AIServer.createTestStream(message);
+  return AIServer.createStream(message);
 }
