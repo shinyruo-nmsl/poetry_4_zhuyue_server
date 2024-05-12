@@ -13,6 +13,7 @@ const getGPtContentRouter: RouteConfig = {
       req: Request & { query: { prompt: string } },
       res: Response
     ) {
+      console.log("start request");
       const stream = await getAIChatStream(req.role!, req.query.prompt);
       console.log("start stream");
       let con = "";
