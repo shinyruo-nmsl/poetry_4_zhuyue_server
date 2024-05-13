@@ -13,7 +13,7 @@ export type RouteConfig = {
   method: HttpMethod;
   path: string;
   middlewareConfig: {
-    option: MiddlewaresConfig;
+    option?: MiddlewaresConfig;
     customValidate?: (req: Request, res: Response, next: NextFunction) => void;
     customHandle(req: Request, res: Response, next: NextFunction): void;
   };
@@ -68,7 +68,12 @@ export function handleRouterMiddleware(router: Router, config: RouteConfig) {
 function handleOptionalMiddleware(router: Router, config: RouteConfig) {
   const { method, path, middlewareConfig } = config;
   const middlewares = MiddleWare.middleWares;
-  const optionKeys = Object.keys(middlewareConfig.option);
+  const optionKeys = Object.keys(middlewareConfig.option || {});
+
+  // 有些中间件是必须处理的，如果用户没有配置，则默认处理
+  if (!optionKeys.includes("overtime")) {
+    router[method](path, middlewares.overtime());
+  }
 
   optionKeys.forEach((k: any) => {
     const handler = middlewares[k];
@@ -76,9 +81,4 @@ function handleOptionalMiddleware(router: Router, config: RouteConfig) {
       router[method](path, handler(middlewareConfig.option[k]));
     }
   });
-
-  // 有些中间件是必须处理的，如果用户没有配置，则默认处理
-  // if (!optionKeys.includes("overtime")) {
-  //   router[method](path, middlewares.overtime());
-  // }
 }

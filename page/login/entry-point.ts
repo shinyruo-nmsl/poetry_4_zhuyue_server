@@ -31,7 +31,6 @@ const loginRoute: RouteConfig = {
   method: "post",
   path: "/login",
   middlewareConfig: {
-    option: {},
     customValidate(req: LoginReq) {
       validateUser(req.body);
     },
@@ -50,7 +49,6 @@ const registRoute: RouteConfig = {
   method: "post",
   path: "/regist",
   middlewareConfig: {
-    option: {},
     customValidate(req: RegistReq) {
       validateUser(req.body);
     },

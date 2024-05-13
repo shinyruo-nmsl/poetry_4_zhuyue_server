@@ -13,7 +13,10 @@ export default function () {
             .end();
           break;
         case "validate":
-          res.status(400).json({ msg: error.message }).end();
+          res
+            .status(400)
+            .json({ msg: error.message || "参数错误~" })
+            .end();
           break;
         case "login":
           res.status(401).json({ msg: "登录失效~" }).end();

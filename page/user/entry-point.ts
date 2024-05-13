@@ -13,7 +13,6 @@ const getUserLoginInfoRouter: RouteConfig = {
   method: "get",
   path: "/getUserLoginInfo",
   middlewareConfig: {
-    option: {},
     async customHandle(req: Request, res: Response) {
       res.setHeader("Cache-Control", "no-store");
       const token = req.header("Authorization");
