@@ -38,7 +38,7 @@ const loginRoute: RouteConfig = {
       const { account, password } = req.body;
 
       const token = await validateUserLogin({ account, password });
-      res.status(200).json({ token });
+      res.status(200).json({ token }).end();
     },
   },
 };

@@ -22,14 +22,18 @@ const getGPtContentRouter: RouteConfig = {
       req: Request & { query: { prompt: string } },
       res: Response
     ) {
+      const stream = await getAIChatStream(
+        req.role!,
+        req.userId!,
+        req.query.prompt
+      );
       try {
-        const stream = await getAIChatStream(req.role!, req.query.prompt);
         for await (const content of stream) {
           res.write(content);
         }
         res.end();
       } catch (error) {
-        throw new CustomError("gpt连接异常", "other");
+        throw new CustomError("gpt返回异常", "other");
       }
     },
   },
