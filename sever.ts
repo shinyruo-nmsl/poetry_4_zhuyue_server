@@ -3,6 +3,7 @@ import express from "express";
 
 import routers from "./page";
 import handleMiddleware from "./service/middlewareService";
+import RedisServer from "./service/redisService";
 
 let connection: Server;
 
@@ -18,6 +19,7 @@ export async function startWebServer() {
     );
     next();
   });
+  RedisServer.connect();
   handleMiddleware(app, routers);
   const apiAddress = await openConnection(app);
   return apiAddress;
