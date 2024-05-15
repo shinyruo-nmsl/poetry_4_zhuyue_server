@@ -9,7 +9,7 @@ export default function (option: { timeout: number } = { timeout: 5000 }) {
       next(new CustomError("请求超时", "overtime"));
     }, timeout);
 
-    req.on("end", () => {
+    req.on("close", () => {
       clearTimeout(requestTimer);
     });
 
