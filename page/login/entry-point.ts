@@ -25,7 +25,7 @@ function validateUser(params: { account: string; password: string }) {
   }
 }
 
-type LoginReq = Request & { body: { account: string; password: string } };
+type LoginReq = Request<{ body: { account: string; password: string } }>;
 
 const loginRoute: RouteConfig = {
   method: "post",
@@ -43,7 +43,7 @@ const loginRoute: RouteConfig = {
   },
 };
 
-type RegistReq = Request & { body: UserRegistParam };
+type RegistReq = Request<{ body: UserRegistParam }>;
 
 const registRoute: RouteConfig = {
   method: "post",

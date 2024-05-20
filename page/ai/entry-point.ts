@@ -13,7 +13,7 @@ const getGPtContentRouter: RouteConfig = {
       sse: true,
       overtime: { timeout: 1000 * 60 * 3 },
     },
-    customValidate(req: Request & { query: { prompt: string } }) {
+    customValidate(req: Request<{ query: { prompt: string } }>) {
       if (!req.query.prompt) {
         throw new CustomError("请输入提示词~", "validate");
       }
@@ -33,7 +33,7 @@ const getGPtContentRouter: RouteConfig = {
         }
         res.end();
       } catch (error) {
-        throw new CustomError("gpt返回异常", "other");
+        throw new CustomError("gpt返回异常", "other", error);
       }
     },
   },

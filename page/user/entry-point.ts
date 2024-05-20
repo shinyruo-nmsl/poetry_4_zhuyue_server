@@ -1,7 +1,7 @@
 import { Response } from "express";
 import { Request } from "../../global-type/request";
 import { RouteConfig } from "../../service/middlewareService";
-import { getUserLoginInfoByToken } from "../../service/domain/user";
+import { getUserLoginInfoByToken } from "../user/domain";
 import {
   updateUserAvatar,
   updateUserName,
@@ -23,8 +23,6 @@ const getUserLoginInfoRouter: RouteConfig = {
   },
 };
 
-type UpdateUserAvatarReq = Request & { body: { avatar: string } };
-
 const updateUserAvatarRouter: RouteConfig = {
   method: "post",
   path: "/updateUserAvatar",
@@ -32,14 +30,15 @@ const updateUserAvatarRouter: RouteConfig = {
     option: {
       auth: { role: "ordinary" },
     },
-    async customHandle(req: UpdateUserAvatarReq, res: Response) {
+    async customHandle(
+      req: Request<{ body: { avatar: string } }>,
+      res: Response
+    ) {
       await updateUserAvatar(req.userId!, req.body.avatar);
       res.status(200).json({ msg: "修改成功" }).end();
     },
   },
 };
-
-type UpdateUserNameReq = Request & { body: { userName: string } };
 
 const updateUserNameRouter: RouteConfig = {
   method: "post",
@@ -48,15 +47,14 @@ const updateUserNameRouter: RouteConfig = {
     option: {
       auth: { role: "ordinary" },
     },
-    async customHandle(req: UpdateUserNameReq, res: Response) {
+    async customHandle(
+      req: Request<{ body: { userName: string } }>,
+      res: Response
+    ) {
       await updateUserName(req.userId!, req.body.userName);
       res.status(200).json({ msg: "修改成功" }).end();
     },
   },
-};
-
-type UpdateUserDisplayInfoReq = Request & {
-  body: Omit<UserDisplayInfo, "userId">;
 };
 
 const updateUserDisplayInfoRouter: RouteConfig = {
@@ -66,7 +64,10 @@ const updateUserDisplayInfoRouter: RouteConfig = {
     option: {
       auth: { role: "ordinary" },
     },
-    async customHandle(req: UpdateUserDisplayInfoReq, res: Response) {
+    async customHandle(
+      req: Request<{ body: Omit<UserDisplayInfo, "userId"> }>,
+      res: Response
+    ) {
       await updateUserDisplayInfo({ userId: req.userId!, ...req.body });
       res.status(200).json({ msg: "修改成功" }).end();
     },

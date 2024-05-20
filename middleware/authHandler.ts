@@ -3,7 +3,8 @@ import { Request } from "../global-type/request";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { Role } from "../global-type/user";
 import { CustomError } from "../service/errorService";
-import { UserPermission, getUserLoginInfoById } from "../service/domain/user";
+import { UserPermission } from "../service/permissionService";
+import { getUserLoginInfoById } from "../page/user/domain";
 
 export default function ({ role }: { role: Exclude<Role, "visitor"> }) {
   return async (req: Request, res: Response, next: NextFunction) => {

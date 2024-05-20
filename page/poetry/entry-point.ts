@@ -7,9 +7,9 @@ import {
 import { RouteConfig } from "../../service/middlewareService";
 import { CustomError } from "../../service/errorService";
 
-type GetPoetriesByAuthorAndKeyWordsReq = Request & {
+type GetPoetriesByAuthorAndKeyWordsReq = Request<{
   query: AuthorAndKeyWordsQuery & { limit: string; pageNo: string };
-};
+}>;
 
 const getPoetriesByAuthorAndKeyWordsRoute: RouteConfig = {
   method: "get",

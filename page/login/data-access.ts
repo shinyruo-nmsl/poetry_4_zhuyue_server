@@ -11,7 +11,7 @@ export async function findUserByName(account: string) {
     });
     return user;
   } catch (error) {
-    throw new CustomError(error.message, "database");
+    throw new CustomError(error.message, "database", error);
   }
 }
 
@@ -33,6 +33,6 @@ export async function addNewUser(params: UserRegistParam) {
       role,
     });
   } catch (error) {
-    throw new CustomError("用户名重复~", "validate");
+    throw new CustomError("用户名重复~", "validate", error);
   }
 }

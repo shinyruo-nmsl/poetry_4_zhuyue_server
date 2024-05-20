@@ -1,17 +1,12 @@
-import express, {
-  Express,
-  Router,
-  Request,
-  Response,
-  NextFunction,
-} from "express";
+import express, { Express, Router, Response, NextFunction } from "express";
 import bodyParser from "body-parser";
+import { Request } from "../global-type/request";
 import MiddleWare, { MiddlewaresConfig } from "../middleware";
 import { HttpMethod } from "../global-type/request";
 
 export type RouteConfig = {
   method: HttpMethod;
-  path: string;
+  path: `/${string}`;
   middlewareConfig: {
     option?: MiddlewaresConfig;
     customValidate?: (req: Request, res: Response, next: NextFunction) => void;
@@ -20,7 +15,7 @@ export type RouteConfig = {
 };
 
 export type RouterConfig = {
-  path: string;
+  path: `/${string}`;
   routes: RouteConfig[];
 };
 

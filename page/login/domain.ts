@@ -17,7 +17,7 @@ export async function validateUserLogin(params: {
     throw new CustomError("暂无此用户~", "validate");
   }
 
-  const passwordMatch = bcrypt.compare(password, user.password);
+  const passwordMatch = await bcrypt.compare(password, user.password);
   if (!passwordMatch) {
     throw new CustomError("密码错误~", "validate");
   }
@@ -37,7 +37,7 @@ export async function registNewUser(params: Omit<UserRegistParam, "userId">) {
   try {
     hashPassword = await bcrypt.hash(password, 10);
   } catch (error) {
-    throw new CustomError(error.message, "other");
+    throw new CustomError(error.message, "other", error);
   }
 
   if (hashPassword) {

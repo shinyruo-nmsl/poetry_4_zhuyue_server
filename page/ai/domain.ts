@@ -1,8 +1,8 @@
 import dayjs from "dayjs";
 
+import { AIServer } from "../../service/aiService";
 import RedisServer from "../../service/redisService";
 import { Role } from "../../global-type/user";
-import { AIServer } from "../../service/domain/ai";
 import { CustomError } from "../../service/errorService";
 
 import { USER_DALIY_PROMOT_COUNT } from "./config";

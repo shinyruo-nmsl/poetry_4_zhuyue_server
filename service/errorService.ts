@@ -7,7 +7,12 @@ export type ErrorCode =
   | "other";
 
 export class CustomError extends Error {
-  constructor(message: string, private code: ErrorCode, private text?: string) {
+  constructor(
+    message: string,
+    private code: ErrorCode,
+    public error?: Error,
+    private text?: string
+  ) {
     super(message);
   }
 

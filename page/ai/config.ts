@@ -5,5 +5,5 @@ export const USER_DALIY_PROMOT_COUNT: Record<
   number
 > = {
   admin: Infinity,
-  ordinary: 3,
+  ordinary: 4,
 };

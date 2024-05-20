@@ -1,5 +1,5 @@
 import OpenAI from "openai";
-import { CustomError } from "../errorService";
+import { CustomError } from "./errorService";
 
 export class AIServer {
   private static openai = new OpenAI({
@@ -14,8 +14,8 @@ export class AIServer {
         stream: true,
       });
       return new AIStream(stream);
-    } catch (err) {
-      throw new CustomError("gpt连接异常", "other");
+    } catch (error) {
+      throw new CustomError("gpt连接异常", "other", error);
     }
   }
 }
