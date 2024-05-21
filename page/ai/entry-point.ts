@@ -9,7 +9,7 @@ const getGPtContentRouter: RouteConfig = {
   path: "/gptContent",
   middlewareConfig: {
     option: {
-      auth: { role: "ordinary" },
+      auth: { role: "ordinary", accurate: true },
       sse: true,
       overtime: { timeout: 1000 * 60 * 3 },
     },

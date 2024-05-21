@@ -6,7 +6,13 @@ import { CustomError } from "../service/errorService";
 import { UserPermission } from "../service/permissionService";
 import { getUserLoginInfoById } from "../page/user/domain";
 
-export default function ({ role }: { role: Exclude<Role, "visitor"> }) {
+export default function ({
+  role,
+  accurate = false,
+}: {
+  role: Exclude<Role, "visitor">;
+  accurate?: boolean;
+}) {
   return async (req: Request, res: Response, next: NextFunction) => {
     const token = req.header("Authorization");
 
@@ -27,7 +33,7 @@ export default function ({ role }: { role: Exclude<Role, "visitor"> }) {
     }
 
     // 优化：如果只是需要普通用户权限，没必要再去查询了
-    if (role === "ordinary") {
+    if (role === "ordinary" && !accurate) {
       req.role = "ordinary";
       next();
       return;
