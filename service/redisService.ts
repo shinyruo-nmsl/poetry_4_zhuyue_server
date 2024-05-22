@@ -1,15 +1,21 @@
 import { createClient, RedisClientType } from "redis";
+import Logger from "./logService";
 
 export default class RedisServer {
   private static _model: RedisClientType = createClient();
   private static connected = false;
 
   static async connect() {
-    if (!this.connected) {
-      await this._model.connect();
-      console.log("redis connected successfully");
+    try {
+      if (!this.connected) {
+        await this._model.connect();
+        console.log("redis connected successfully");
+      }
+      this.connected = true;
+    } catch (err) {
+      Logger.traceError(err);
+      throw err;
     }
-    this.connected = true;
   }
 
   static async getModel() {

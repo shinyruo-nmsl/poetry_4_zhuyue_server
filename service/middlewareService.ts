@@ -27,6 +27,9 @@ export default function handleMiddleware(
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
 
+  const { trace } = MiddleWare.middleWares;
+  app.use(trace);
+
   for (const cfg of routerConfigs) {
     const router = express.Router();
     for (const routeCfg of cfg.routes) {

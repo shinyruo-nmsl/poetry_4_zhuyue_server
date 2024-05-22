@@ -4,6 +4,7 @@ import express from "express";
 import routers from "./page";
 import handleMiddleware from "./service/middlewareService";
 import RedisServer from "./service/redisService";
+import Logger from "./service/logService";
 
 let connection: Server;
 
@@ -22,8 +23,12 @@ export async function startWebServer() {
     );
     next();
   });
+
+  Logger.init();
   RedisServer.connect();
+
   handleMiddleware(app, routers);
+
   const apiAddress = await openConnection(app);
   return apiAddress;
 }

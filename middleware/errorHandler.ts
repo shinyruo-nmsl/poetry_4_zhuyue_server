@@ -1,8 +1,11 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
+import { Request } from "../global-type/request";
 import { CustomError } from "../service/errorService";
+import Logger from "../service/logService";
 
 export default function () {
   return (error: Error, req: Request, res: Response, next: NextFunction) => {
+    Logger.traceError(error, { event_id: req.traceID });
     if (error instanceof CustomError) {
       switch (error.errorCode) {
         case "database":

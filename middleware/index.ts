@@ -1,3 +1,4 @@
+import traceHandler from "./traceHandler";
 import overtimeHandler from "./overtimeHandler";
 import authHandler from "./authHandler";
 import sseHandler from "./sseHandler";
@@ -5,6 +6,7 @@ import errorHandler from "./errorHandler";
 
 export default class MiddleWare {
   static readonly middleWares = {
+    trace: traceHandler,
     auth: authHandler,
     sse: sseHandler,
     overtime: overtimeHandler,
