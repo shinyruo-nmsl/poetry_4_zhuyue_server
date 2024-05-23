@@ -1,5 +1,6 @@
 export type ErrorCode =
   | "database"
+  | "cache"
   | "validate"
   | "auth"
   | "login"

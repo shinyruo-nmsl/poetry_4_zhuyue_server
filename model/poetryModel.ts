@@ -20,6 +20,10 @@ export interface PoetryModelFields
 }
 
 export default class PoetryModel {
+  static get transcation() {
+    return PoemsDataBase.transcation;
+  }
+
   static get model() {
     return PoemsDataBase.connection.define<PoetryModelFields>(
       "shici",

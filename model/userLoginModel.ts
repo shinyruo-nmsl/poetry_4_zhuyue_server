@@ -23,6 +23,10 @@ export interface UserLoginModelFields
 }
 
 export default class UserLoginModel {
+  static get transcation() {
+    return UserDatabase.transcation;
+  }
+
   static get model() {
     return UserDatabase.connection.define<UserLoginModelFields>(
       "user_login",

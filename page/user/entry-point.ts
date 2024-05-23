@@ -2,12 +2,7 @@ import { Response } from "express";
 import { Request } from "../../global-type/request";
 import { RouteConfig } from "../../service/middlewareService";
 import { getUserLoginInfoByToken } from "../user/domain";
-import {
-  updateUserAvatar,
-  updateUserName,
-  updateUserDisplayInfo,
-  UserDisplayInfo,
-} from "./data-access";
+import { updateUserDisplayInfo, UserDisplayInfo } from "./data-access";
 
 const getUserLoginInfoRouter: RouteConfig = {
   method: "get",
@@ -19,40 +14,6 @@ const getUserLoginInfoRouter: RouteConfig = {
 
       const user = await getUserLoginInfoByToken(token);
       res.status(200).send(user).end();
-    },
-  },
-};
-
-const updateUserAvatarRouter: RouteConfig = {
-  method: "post",
-  path: "/updateUserAvatar",
-  middlewareConfig: {
-    option: {
-      auth: { role: "ordinary" },
-    },
-    async customHandle(
-      req: Request<{ body: { avatar: string } }>,
-      res: Response
-    ) {
-      await updateUserAvatar(req.userId!, req.body.avatar);
-      res.status(200).json({ msg: "修改成功" }).end();
-    },
-  },
-};
-
-const updateUserNameRouter: RouteConfig = {
-  method: "post",
-  path: "/updateUserName",
-  middlewareConfig: {
-    option: {
-      auth: { role: "ordinary" },
-    },
-    async customHandle(
-      req: Request<{ body: { userName: string } }>,
-      res: Response
-    ) {
-      await updateUserName(req.userId!, req.body.userName);
-      res.status(200).json({ msg: "修改成功" }).end();
     },
   },
 };
@@ -74,9 +35,4 @@ const updateUserDisplayInfoRouter: RouteConfig = {
   },
 };
 
-export default [
-  getUserLoginInfoRouter,
-  updateUserAvatarRouter,
-  updateUserNameRouter,
-  updateUserDisplayInfoRouter,
-];
+export default [getUserLoginInfoRouter, updateUserDisplayInfoRouter];

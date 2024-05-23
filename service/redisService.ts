@@ -33,6 +33,11 @@ export default class RedisServer {
     return this._model.get(...params);
   }
 
+  static async del(...params: Parameters<RedisClientType["del"]>) {
+    await this.connect();
+    return this._model.del(...params);
+  }
+
   static async expireAt(...params: Parameters<RedisClientType["expireAt"]>) {
     await this.connect();
     return this._model.expireAt(...params);

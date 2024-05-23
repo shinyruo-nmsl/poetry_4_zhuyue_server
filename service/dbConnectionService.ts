@@ -12,6 +12,10 @@ export default class DataBase {
     return this.dbConnection;
   }
 
+  get transcation() {
+    return () => this.connection.transaction();
+  }
+
   private createConnection() {
     this.dbConnection = new Sequelize(
       this.database,
