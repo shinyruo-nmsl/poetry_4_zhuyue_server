@@ -1,7 +1,6 @@
 import UserLoginModel, {
   UserLoginModelFields,
 } from "../../model/userLoginModel";
-import DataBase from "../../service/dbConnectionService";
 import { CustomError } from "../../service/errorService";
 import Logger from "../../service/logService";
 import RedisServer from "../../service/redisService";
