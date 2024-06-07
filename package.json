@@ -5,7 +5,7 @@
   "main": "start.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "PRETTY_PRINT=true nodemon -r dotenv/config start.ts",
+    "start:dev": "PRETTY_PRINT=true nodemon -r tsconfig-paths/register -r dotenv/config start.ts",
     "build": "tsc && node .dist/start.js",
     "tsc": "tsc",
     "start:prod": "node -r dotenv/config .dist/start.js"
@@ -33,6 +33,7 @@
     "redis": "^4.6.13",
     "dayjs": "^1.11.11",
     "@sentry/node": "^8.2.1",
+    "axios": "^1.7.2",
     "@sentry/integrations": "^7.114.0"
   },
   "devDependencies": {
@@ -42,6 +43,7 @@
     "@types/uuid": "^9.0.8",
     "nodemon": "^3.1.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.3"
+    "typescript": "^5.4.3",
+    "tsconfig-paths": "^4.2.0"
   }
 }
