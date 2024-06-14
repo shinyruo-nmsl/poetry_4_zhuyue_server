@@ -19,17 +19,22 @@ const getGPtContentRouter: RouteConfig = {
       }
     },
     async customHandle(
-      req: Request & { query: { prompt: string } },
+      req: Request & { query: { prompt: string; serialize: boolean } },
       res: Response
     ) {
-      const stream = await getAIChatStream(
-        req.role!,
-        req.userId!,
-        req.query.prompt
-      );
+      const { serialize, prompt } = req.query;
+      const stream = await getAIChatStream(req.role!, req.userId!, prompt);
+
       try {
         for await (const content of stream) {
-          res.write(content);
+          if (serialize) {
+            res.write(JSON.stringify({ value: content, done: false }));
+          } else {
+            res.write(content);
+          }
+        }
+        if (serialize) {
+          res.write(JSON.stringify({ value: "", done: true }));
         }
         res.end();
       } catch (error) {

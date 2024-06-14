@@ -27,6 +27,7 @@ export async function getAIChatStream(
     promptCount,
     dayjs().endOf("day").toDate()
   );
+
   if (status === "reject") {
     throw new CustomError("今日使用次数已达上限~", "other");
   }
