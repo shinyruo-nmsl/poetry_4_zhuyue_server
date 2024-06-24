@@ -1,7 +1,7 @@
 import { Role } from "@/global-type/user";
 
 export class UserPermission {
-  private static roles: Role[] = ["visitor", "member", "ordinary", "admin"];
+  private static roles: Role[] = ["visitor", "ordinary", "member", "admin"];
 
   static hasPermission(auth: Role, user: Role) {
     const userIndex = this.roles.findIndex((r) => r === user);

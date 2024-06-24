@@ -34,6 +34,7 @@ export default function ({
 
     // 优化：如果只是需要普通用户权限，没必要再去查询了
     if (role === "ordinary" && !accurate) {
+      req.role = "ordinary";
       next();
       return;
     }

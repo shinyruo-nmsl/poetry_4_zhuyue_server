@@ -1,15 +1,12 @@
-import OpenAI from "openai";
+import OpenAI, { AzureOpenAI } from "openai";
 import { CustomError } from "./errorService";
 
 export class AIServer {
-  private static openai = new OpenAI({
-    apiKey: process.env.OPENAI_SECRET_KEY,
-  });
-
+  private static openai = new AzureOpenAI({ endpoint: "", apiKey: "" });
   static async createStream(message: string) {
     try {
       const stream = await this.openai.chat.completions.create({
-        model: "gpt-4",
+        model: "gpt-4o",
         messages: [{ role: "user", content: message }],
         stream: true,
       });

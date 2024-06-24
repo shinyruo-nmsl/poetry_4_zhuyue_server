@@ -52,8 +52,6 @@ async function getWXLoginInfo({ code }: { code: string }) {
       },
     });
 
-    console.log(res.data);
-
     if (!res.data.openid) {
       Logger.traceError(res);
       throw new Error(JSON.stringify(res));
