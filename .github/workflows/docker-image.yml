@@ -28,7 +28,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: jim871939254/poetry_server:latest
+          tags: registry.cn-hangzhou.aliyuncs.com/jim_hub/poetry_server:latest
       - name: Deploy
         uses: appleboy/ssh-action@master
         with:
@@ -39,6 +39,5 @@ jobs:
           script: |
             docker stop poetry_server
             docker rm poetry_server
-            docker rmi jim871939254/poetry_server:latest
-            docker pull jim871939254/poetry_server:latest 
-            docker run -d -p 3333:3333/tcp --name poetry_server jim871939254/poetry_server:latest
+            docker pull registry.cn-hangzhou.aliyuncs.com/jim_hub/poetry_server:latest 
+            docker run -d -p 3333:3333/tcp --name poetry_server registry.cn-hangzhou.aliyuncs.com/jim_hub/poetry_server:latest
