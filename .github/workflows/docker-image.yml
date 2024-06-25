@@ -40,4 +40,4 @@ jobs:
             docker stop poetry_server
             docker rm poetry_server
             docker pull registry.cn-hangzhou.aliyuncs.com/jim_hub/poetry_server:latest 
-            docker run -d -p 3333:3333/tcp --name poetry_server registry.cn-hangzhou.aliyuncs.com/jim_hub/poetry_server:latest
+            docker run -p 3333:3333/tcp --name poetry_server registry.cn-hangzhou.aliyuncs.com/jim_hub/poetry_server:latest
