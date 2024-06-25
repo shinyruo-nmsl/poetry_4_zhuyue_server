@@ -1,29 +1,32 @@
-import OpenAI, { AzureOpenAI } from "openai";
+import {
+  OpenAIClient,
+  AzureKeyCredential,
+  EventStream,
+  ChatCompletions,
+} from "@azure/openai";
 import { CustomError } from "./errorService";
 
 export class AIServer {
-  private static openai = new AzureOpenAI({ endpoint: "", apiKey: "" });
-  static async createStream(message: string) {
+  private static openai = new OpenAIClient(
+    process.env.AZURE_OPENAI_ENDPOINT,
+    new AzureKeyCredential(process.env.AZURE_OPENAI_SECRET_KEY)
+  );
+
+  static async createStream(prompt: string) {
     try {
-      const stream = await this.openai.chat.completions.create({
-        model: "gpt-4o",
-        messages: [{ role: "user", content: message }],
-        stream: true,
-      });
+      const messages = [{ role: "user", content: prompt }];
+      const stream = await this.openai.streamChatCompletions(
+        "jimgpt35",
+        messages
+      );
       return new AIStream(stream);
     } catch (error) {
       throw new CustomError("gpt连接异常", "other", error);
     }
   }
 }
-
-type OpenAIStream = Exclude<
-  Awaited<ReturnType<OpenAI["chat"]["completions"]["create"]>>,
-  OpenAI.Chat.Completions.ChatCompletion
->;
-
 class AIStream implements AsyncIterable<string> {
-  constructor(private stream: OpenAIStream) {}
+  constructor(private stream: EventStream<ChatCompletions>) {}
 
   async *[Symbol.asyncIterator]() {
     for await (const chunk of this.stream) {

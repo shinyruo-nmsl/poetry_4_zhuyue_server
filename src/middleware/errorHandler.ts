@@ -5,7 +5,10 @@ import Logger from "@/service/logService";
 
 export default function () {
   return (error: Error, req: Request, res: Response, next: NextFunction) => {
-    Logger.traceError(error, { event_id: req.traceID });
+    const rawError = error instanceof CustomError ? error.error : error;
+    Logger.traceError(rawError, {
+      event_id: req.traceID,
+    });
     if (error instanceof CustomError) {
       switch (error.errorCode) {
         case "database":
