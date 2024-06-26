@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "PRETTY_PRINT=true nodemon -r tsconfig-paths/register -r dotenv/config start.ts",
-    "build": "tsc && node .dist/start.js",
-    "tsc": "tsc",
+    "build": "tsc && tsc-alias && node -r dotenv/config .dist/start.js",
+    "tsc": "tsc && tsc-alias",
     "start:prod": "node -r dotenv/config .dist/start.js"
   },
   "repository": {
@@ -47,6 +47,7 @@
     "nodemon": "^3.1.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.3",
-    "tsconfig-paths": "^4.2.0"
+    "tsconfig-paths": "^4.2.0",
+    "tsc-alias": "^1.8.10"
   }
 }
