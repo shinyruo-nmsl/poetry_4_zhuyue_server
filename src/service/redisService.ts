@@ -2,7 +2,9 @@ import { createClient, RedisClientType } from "redis";
 import Logger from "./logService";
 
 export default class RedisServer {
-  private static _model: RedisClientType = createClient();
+  private static _model: RedisClientType = createClient({
+    url: `redis://${process.env.ALIYUN_USR_NAME}:${process.env.ALIYUN_USR_PASSWORD}@${process.env.ALIYUN_INNER_HOSTL}:6380`,
+  });
   private static connected = false;
 
   static async connect() {
