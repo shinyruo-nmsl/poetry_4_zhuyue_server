@@ -2,9 +2,7 @@ import { createClient, RedisClientType } from "redis";
 import Logger from "./logService";
 
 export default class RedisServer {
-  private static _model: RedisClientType = createClient({
-    url: "redis://my-redis:6379",
-  });
+  private static _model: RedisClientType = createClient();
   private static connected = false;
 
   static async connect() {
