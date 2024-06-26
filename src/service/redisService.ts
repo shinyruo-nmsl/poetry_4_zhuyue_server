@@ -4,7 +4,7 @@ import Logger from "./logService";
 export default class RedisServer {
   private static _model: RedisClientType = createClient({
     socket: {
-      host: "node-redis",
+      host: "redis",
       port: 6739,
     },
   });
