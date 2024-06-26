@@ -3,7 +3,7 @@ import Logger from "./logService";
 
 export default class RedisServer {
   private static _model: RedisClientType = createClient({
-    url: `redis://${process.env.ALIYUN_USR_NAME}:${process.env.ALIYUN_USR_PASSWORD}@${process.env.ALIYUN_INNER_HOSTL}:6379`,
+    url: `redis://@${process.env.ALIYUN_INNER_HOST}:6379`,
   });
   private static connected = false;
 
