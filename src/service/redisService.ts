@@ -3,7 +3,7 @@ import Logger from "./logService";
 
 export default class RedisServer {
   private static _model: RedisClientType = createClient({
-    url: "redis://localhost:6379",
+    url: "redis://0.0.0.0:6379",
   });
   private static connected = false;
 
