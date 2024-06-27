@@ -16,7 +16,7 @@ export class AIServer {
     try {
       const messages = [{ role: "user", content: prompt }];
       const stream = await this.openai.streamChatCompletions(
-        "jimgpt35",
+        "jimgpt4o",
         messages
       );
       return new AIStream(stream);
