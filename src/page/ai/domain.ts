@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 
-import { AIServer } from "@/service/aiService";
+import { AIServer, AIChatMessage } from "@/service/aiService";
 import RedisServer from "@/service/redisService";
 import { Role } from "@/global-type/user";
 import { CustomError } from "@/service/errorService";
@@ -14,7 +14,7 @@ function getUserDaliyPromotCount(role: Exclude<Role, "visitor">) {
 export async function getAIChatStream(
   role: Role,
   userID: string,
-  message: string
+  messages: AIChatMessage[]
 ) {
   if (role === "visitor") {
     throw new CustomError("暂无访问权限", "auth");
@@ -32,5 +32,5 @@ export async function getAIChatStream(
     throw new CustomError("今日使用次数已达上限~", "other");
   }
 
-  return AIServer.createStream(message);
+  return AIServer.createStream(messages);
 }

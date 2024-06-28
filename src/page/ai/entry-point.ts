@@ -2,6 +2,7 @@ import { Response } from "express";
 import { Request } from "@/global-type/request";
 import { RouteConfig } from "@/service/middlewareService";
 import { CustomError } from "@/service/errorService";
+import { AIChatMessage } from "@/service/aiService";
 import { getAIChatStream } from "./domain";
 
 const getGPtContentRouter: RouteConfig = {
@@ -13,17 +14,18 @@ const getGPtContentRouter: RouteConfig = {
       sse: true,
       overtime: { timeout: 1000 * 60 * 3 },
     },
-    customValidate(req: Request<{ query: { prompt: string } }>) {
-      if (!req.query.prompt) {
-        throw new CustomError("请输入提示词~", "validate");
-      }
-    },
     async customHandle(
-      req: Request & { query: { prompt: string; serialize: boolean } },
+      req: Request & {
+        query: { messages: string; serialize: boolean };
+      },
       res: Response
     ) {
-      const { serialize, prompt } = req.query;
-      const stream = await getAIChatStream(req.role!, req.userId!, prompt);
+      const { serialize, messages } = req.query;
+      const stream = await getAIChatStream(
+        req.role!,
+        req.userId!,
+        JSON.parse(messages) as AIChatMessage[]
+      );
 
       try {
         for await (const content of stream) {

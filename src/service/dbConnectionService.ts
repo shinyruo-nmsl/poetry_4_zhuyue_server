@@ -1,4 +1,5 @@
 import { Sequelize } from "sequelize";
+import { CustomError } from "./errorService";
 
 export default class DataBase {
   private dbConnection: Sequelize;
@@ -44,8 +45,13 @@ export default class DataBase {
     this.dbConnection
       .authenticate()
       .then(() => console.log("Connection has been established successfully."))
-      .catch((error) =>
-        console.error("Unable to connect to the database:", error.message)
+      .catch(
+        (error) =>
+          new CustomError(
+            "Unable to connect to the database",
+            "database",
+            error
+          )
       );
   }
 }

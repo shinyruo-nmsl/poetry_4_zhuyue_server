@@ -6,15 +6,29 @@ import {
 } from "@azure/openai";
 import { CustomError } from "./errorService";
 
+export type AIRole = "user" | "assistant";
+
+export type AIChatMessage = {
+  role: AIRole;
+  content: string;
+};
+
 export class AIServer {
   private static openai = new OpenAIClient(
     process.env.AZURE_OPENAI_ENDPOINT,
     new AzureKeyCredential(process.env.AZURE_OPENAI_SECRET_KEY)
   );
 
-  static async createStream(prompt: string) {
+  static async createStream(messages: AIChatMessage[]) {
+    if (messages.length === 0) {
+      throw new CustomError("请输入消息~", "validate");
+    }
+
+    if (messages.length > 4) {
+      throw new CustomError("请求消息过多", "validate");
+    }
+
     try {
-      const messages = [{ role: "user", content: prompt }];
       const stream = await this.openai.streamChatCompletions(
         "jimgpt4o",
         messages
