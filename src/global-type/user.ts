@@ -1,4 +1,4 @@
-export type Role = "admin" | "member" | "ordinary" | "visitor";
+export type Role = "admin" | "superMember" | "member" | "ordinary" | "visitor";
 
 export type UserLoginInfo = {
   userId: string;
