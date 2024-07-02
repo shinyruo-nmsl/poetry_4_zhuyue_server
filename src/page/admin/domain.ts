@@ -5,11 +5,14 @@ import {
   queryUsersByAccount,
   queryUsersById,
   queryUsersByName,
+  queryUserByRole,
 } from "./data-access";
+import { Role } from "@/global-type/user";
 
-export interface UsersQuery extends PaginationQuery {
-  type: "userId" | "userName" | "account";
-  value: string;
+export interface UsersQuery<T = "userId" | "userName" | "account" | "role">
+  extends PaginationQuery {
+  type: T;
+  value: T extends "role" ? Role : string;
 }
 
 export async function searchUserLoginInfo(query: UsersQuery) {
@@ -20,9 +23,10 @@ export async function searchUserLoginInfo(query: UsersQuery) {
       records = await queryUsersById({ ...query, userId: value });
     case "account":
       records = await queryUsersByAccount({ ...query, account: value });
-
     case "userName":
       records = await queryUsersByName({ ...query, userName: value });
+    case "role":
+      records = await queryUserByRole({ ...query, role: value as Role });
   }
 
   return {

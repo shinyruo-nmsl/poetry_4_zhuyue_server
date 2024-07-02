@@ -38,6 +38,14 @@ export async function queryUsersByName(
   return queryPaginationRecords(UserLoginModel.model, where, limit, pageNo);
 }
 
+export async function queryUserByRole(query: PaginationQuery & { role: Role }) {
+  const { limit, pageNo, role } = query;
+
+  const where = role ? { role } : {};
+
+  return queryPaginationRecords(UserLoginModel.model, where, limit, pageNo);
+}
+
 export async function updateUserRole(userId: string, role: Role) {
   const t = await UserLoginModel.transcation();
 
