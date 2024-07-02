@@ -25,7 +25,7 @@ export async function validateUserLogin(params: {
   }
 
   const token = jwt.sign({ userId: user.user_id }, process.env.JWT_SECRET_KEY, {
-    expiresIn: "24h",
+    expiresIn: "168h",
   });
 
   return token;

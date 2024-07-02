@@ -22,14 +22,14 @@ export async function getAIChatStream(
 
   const promptCount = getUserDaliyPromotCount(role);
 
-  const { status } = await RedisServer.limitCount(
-    userID,
-    promptCount,
-    dayjs().endOf("day").toDate()
-  );
-
-  if (status === "reject") {
-    throw new CustomError("今日使用次数已达上限~", "other");
+  try {
+    await RedisServer.limitCount(
+      userID,
+      promptCount,
+      dayjs().endOf("day").toDate()
+    );
+  } catch (error) {
+    throw new CustomError("今日使用次数已达上限~", "other", error);
   }
 
   return AIServer.createStream(messages);
