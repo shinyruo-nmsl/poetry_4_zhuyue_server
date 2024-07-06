@@ -2,11 +2,11 @@ import { Response } from "express";
 import { Request } from "@/global-type/request";
 import { RouteConfig } from "@/service/middlewareService";
 import { CustomError } from "@/service/errorService";
-import { AIChatMessage } from "@/service/aiService";
-import { getAIChatStream } from "./domain";
+import { AIChatMessage, AIImagePrompt } from "@/service/aiService";
+import { getAIChatStream, getAIImages } from "./domain";
 
-const getGPtContentRouter: RouteConfig = {
-  method: "get",
+const getGPTContentRouter: RouteConfig = {
+  method: "post",
   path: "/gptContent",
   middlewareConfig: {
     option: {
@@ -16,16 +16,12 @@ const getGPtContentRouter: RouteConfig = {
     },
     async customHandle(
       req: Request & {
-        query: { messages: string; serialize: boolean };
+        body: { messages: AIChatMessage[]; serialize: boolean };
       },
       res: Response
     ) {
-      const { serialize, messages } = req.query;
-      const stream = await getAIChatStream(
-        req.role!,
-        req.userId!,
-        JSON.parse(messages) as AIChatMessage[]
-      );
+      const { serialize, messages } = req.body;
+      const stream = await getAIChatStream(req.role!, req.userId!, messages);
 
       try {
         for await (const content of stream) {
@@ -46,4 +42,24 @@ const getGPtContentRouter: RouteConfig = {
   },
 };
 
-export default [getGPtContentRouter];
+const getAIImagesRouter: RouteConfig = {
+  method: "post",
+  path: "/images",
+  middlewareConfig: {
+    option: {
+      auth: { role: "ordinary", accurate: true },
+      overtime: { timeout: 1000 * 60 * 3 },
+    },
+    async customHandle(
+      req: Request & { body: { prompt: AIImagePrompt } },
+      res: Response
+    ) {
+      const { prompt } = req.body;
+      console.log("prompt", prompt);
+      const images = await getAIImages(req.role!, req.userId!, prompt);
+      res.json({ images }).end();
+    },
+  },
+};
+
+export default [getGPTContentRouter, getAIImagesRouter];
