@@ -6,6 +6,7 @@ import Logger from "@/service/logService";
 export default function () {
   return (error: Error, req: Request, res: Response, next: NextFunction) => {
     const rawError = error instanceof CustomError ? error.error : error;
+    console.log("rawError", rawError);
     Logger.traceError(rawError, {
       event_id: req.traceID,
     });

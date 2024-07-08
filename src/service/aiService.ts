@@ -23,6 +23,11 @@ export type AIImagePrompt = {
   count: number;
 };
 
+export type AIParseImageMessage = {
+  decrption: string;
+  imgUrl: string;
+};
+
 export class AIServer {
   private static openai = new OpenAIClient(
     process.env.AZURE_OPENAI_ENDPOINT,
@@ -49,31 +54,54 @@ export class AIServer {
     }
   }
 
-  static async createImages(message: AIImagePrompt) {
-    if (message.prompt.length === 0) {
+  static async createImages(prompt: AIImagePrompt) {
+    if (prompt.prompt.length === 0) {
       throw new CustomError("请输入描述~", "validate");
     }
 
-    if (message.count === 0) {
+    if (prompt.count === 0) {
       throw new CustomError("请输入生成图片数量~", "validate");
     }
 
-    if (message.count > 5) {
+    if (prompt.count > 5) {
       throw new CustomError("请求图片过多", "validate");
     }
 
     try {
-      const res = await this.openai.getImages(AIMODEL.DALL_E, message.prompt, {
-        n: message.count,
+      const res = await this.openai.getImages(AIMODEL.DALL_E, prompt.prompt, {
+        n: prompt.count,
         size: "1024x1024",
+        quality: "standard",
       });
-
-      console.log("res", res);
 
       return res.data.map((item) => item.url);
     } catch (error) {
-      throw error.message;
-      throw new CustomError("生成图片异常", "other", error);
+      throw new CustomError("dall-e连接异常", "other", error);
+    }
+  }
+
+  static async createParseImageStream(message: AIParseImageMessage) {
+    try {
+      const stream = await this.openai.streamChatCompletions(AIMODEL.GPT, [
+        {
+          role: "user",
+          content: [
+            {
+              type: "text",
+              text: message.decrption,
+            },
+            {
+              type: "image_url",
+              imageUrl: {
+                url: message.imgUrl,
+              },
+            },
+          ],
+        },
+      ]);
+      return new GPTStream(stream);
+    } catch (error) {
+      throw new CustomError("gpt连接异常", "other", error);
     }
   }
 }

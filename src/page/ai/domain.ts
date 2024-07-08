@@ -1,6 +1,11 @@
 import dayjs from "dayjs";
 
-import { AIServer, AIChatMessage, AIImagePrompt } from "@/service/aiService";
+import {
+  AIServer,
+  AIChatMessage,
+  AIImagePrompt,
+  AIParseImageMessage,
+} from "@/service/aiService";
 import RedisServer from "@/service/redisService";
 import { Role } from "@/global-type/user";
 import { CustomError } from "@/service/errorService";
@@ -34,6 +39,16 @@ export async function getAIImages(
   return AIServer.createImages(prompt);
 }
 
+export async function getAIParseImageStream(
+  role: Role,
+  userID: string,
+  message: AIParseImageMessage
+) {
+  await validateUserDaliyPromotCount("parseImage", role, userID);
+
+  return AIServer.createParseImageStream(message);
+}
+
 async function validateUserDaliyPromotCount(
   category: AICategory,
   role: Role,
@@ -45,13 +60,15 @@ async function validateUserDaliyPromotCount(
 
   const promptCount = getUserDaliyPromotCount(category, role);
 
-  try {
-    await RedisServer.limitCount(
-      category + "__" + userID,
-      promptCount,
-      dayjs().endOf("day").toDate()
-    );
-  } catch (error) {
-    throw new CustomError("今日使用次数已达上限~", "other", error);
+  console.log("promptCount", promptCount);
+
+  const { status } = await RedisServer.limitCount(
+    category + "__" + userID,
+    promptCount,
+    dayjs().endOf("day").toDate()
+  );
+
+  if (status === "reject") {
+    throw new CustomError("今日请求次数已用完", "auth");
   }
 }

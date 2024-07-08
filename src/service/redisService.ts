@@ -1,5 +1,6 @@
 import { createClient, RedisClientType } from "redis";
 import Logger from "./logService";
+import { CustomError } from "./errorService";
 
 export default class RedisServer {
   private static _model: RedisClientType = createClient();
@@ -13,8 +14,7 @@ export default class RedisServer {
       }
       this.connected = true;
     } catch (err) {
-      Logger.traceError(err);
-      throw err;
+      throw new CustomError("redis connect failed", "database", err);
     }
   }
 

@@ -2,8 +2,12 @@ import { Response } from "express";
 import { Request } from "@/global-type/request";
 import { RouteConfig } from "@/service/middlewareService";
 import { CustomError } from "@/service/errorService";
-import { AIChatMessage, AIImagePrompt } from "@/service/aiService";
-import { getAIChatStream, getAIImages } from "./domain";
+import {
+  AIChatMessage,
+  AIImagePrompt,
+  AIParseImageMessage,
+} from "@/service/aiService";
+import { getAIChatStream, getAIImages, getAIParseImageStream } from "./domain";
 
 const getGPTContentRouter: RouteConfig = {
   method: "post",
@@ -58,6 +62,47 @@ const getAIImagesRouter: RouteConfig = {
       console.log("prompt", prompt);
       const images = await getAIImages(req.role!, req.userId!, prompt);
       res.json({ images }).end();
+    },
+  },
+};
+
+const getAIParseImageStreamRouter: RouteConfig = {
+  method: "post",
+  path: "/parseImageContent",
+  middlewareConfig: {
+    option: {
+      auth: { role: "ordinary", accurate: true },
+      sse: true,
+      overtime: { timeout: 1000 * 60 * 3 },
+    },
+    async customHandle(
+      req: Request & {
+        body: { message: AIParseImageMessage; serialize: boolean };
+      },
+      res: Response
+    ) {
+      const { serialize, message } = req.body;
+      const stream = await getAIParseImageStream(
+        req.role!,
+        req.userId!,
+        message
+      );
+
+      try {
+        for await (const content of stream) {
+          if (serialize) {
+            res.write(JSON.stringify({ value: content, done: false }));
+          } else {
+            res.write(content);
+          }
+        }
+        if (serialize) {
+          res.write(JSON.stringify({ value: "", done: true }));
+        }
+        res.end();
+      } catch (error) {
+        throw new CustomError("gpt返回异常", "other", error);
+      }
     },
   },
 };
