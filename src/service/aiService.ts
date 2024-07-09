@@ -24,7 +24,7 @@ export type AIImagePrompt = {
 };
 
 export type AIParseImageMessage = {
-  decrption: string;
+  decription: string;
   imgUrl: string;
 };
 
@@ -88,7 +88,7 @@ export class AIServer {
           content: [
             {
               type: "text",
-              text: message.decrption,
+              text: message.decription,
             },
             {
               type: "image_url",
