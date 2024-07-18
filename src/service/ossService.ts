@@ -11,22 +11,6 @@ export default class OSSServer {
     bucket: process.env.ALIYUN_OSS_BUCKET,
   });
 
-  private static hasSetACL = false;
-  private static async setACLPublic() {
-    if (this.hasSetACL) {
-      return;
-    }
-    try {
-      await this.client.putBucketACL(
-        process.env.ALIYUN_OSS_BUCKET,
-        "public-read"
-      );
-      this.hasSetACL = true;
-    } catch (error) {
-      throw error;
-    }
-  }
-
   static async uploadBase64Img(base64: string, fileName: string) {
     const buffer = base64ToBuffer(base64);
 
@@ -35,7 +19,6 @@ export default class OSSServer {
     }
 
     try {
-      // await this.setACLPublic();
       const result = await this.client.put(fileName + ".png", buffer);
       return result.url;
     } catch (error) {

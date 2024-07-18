@@ -35,7 +35,6 @@ jobs:
           host: ${{ secrets.ALIYUN_HOST }}
           username: ${{ secrets.ALIYUN_USER_NAME }}
           password: ${{ secrets.ALIYUN_PASSWORD }}
-          key: ${{ secrets.ALIYUN_SSH_KEY }}
           script: |
             docker stop poetry_server
             docker rm poetry_server
