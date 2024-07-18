@@ -24,7 +24,7 @@ export type AIImagePrompt = {
 };
 
 export type AIParseImageMessage = {
-  decription: string;
+  description: string;
   imgUrl: string;
 };
 
@@ -88,7 +88,7 @@ export class AIServer {
           content: [
             {
               type: "text",
-              text: message.decription,
+              text: message.description,
             },
             {
               type: "image_url",
@@ -101,7 +101,7 @@ export class AIServer {
       ]);
       return new GPTStream(stream);
     } catch (error) {
-      throw new CustomError("gpt连接异常", "other", error);
+      throw error;
     }
   }
 }

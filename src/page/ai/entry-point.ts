@@ -107,4 +107,8 @@ const getAIParseImageStreamRouter: RouteConfig = {
   },
 };
 
-export default [getGPTContentRouter, getAIImagesRouter];
+export default [
+  getGPTContentRouter,
+  getAIImagesRouter,
+  getAIParseImageStreamRouter,
+];

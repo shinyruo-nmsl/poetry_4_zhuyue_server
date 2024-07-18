@@ -1,15 +1,31 @@
 import OSS from "ali-oss";
 
-import { base64ToBuffer } from "./fileService";
+import { base64ToBuffer, base64URLtoFile } from "./fileService";
 import { CustomError } from "./errorService";
 
 export default class OSSServer {
   private static client = new OSS({
-    region: process.env.OSS_REGION,
-    accessKeyId: process.env.OSS_ACCESS_KEY_ID,
-    accessKeySecret: process.env.OSS_ACCESS_KEY_SECRET,
-    bucket: process.env.OSS_BUCKET,
+    region: process.env.ALIYUN_OSS_REGION,
+    accessKeyId: process.env.ALIYUN_OSS_ACCESS_KEY_ID,
+    accessKeySecret: process.env.ALIYUN_OSS_ACCESS_KEY_SECRET,
+    bucket: process.env.ALIYUN_OSS_BUCKET,
   });
+
+  private static hasSetACL = false;
+  private static async setACLPublic() {
+    if (this.hasSetACL) {
+      return;
+    }
+    try {
+      await this.client.putBucketACL(
+        process.env.ALIYUN_OSS_BUCKET,
+        "public-read"
+      );
+      this.hasSetACL = true;
+    } catch (error) {
+      throw error;
+    }
+  }
 
   static async uploadBase64Img(base64: string, fileName: string) {
     const buffer = base64ToBuffer(base64);
@@ -19,10 +35,11 @@ export default class OSSServer {
     }
 
     try {
+      // await this.setACLPublic();
       const result = await this.client.put(fileName + ".png", buffer);
       return result.url;
     } catch (error) {
-      throw new CustomError("oss上传失败", "other", error);
+      throw error;
     }
   }
 }
