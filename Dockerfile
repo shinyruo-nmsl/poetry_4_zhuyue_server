@@ -4,9 +4,7 @@ WORKDIR /app
 
 COPY package*.json ./
 
-ENV NODE_ENV=production
-
-RUN npm install
+RUN npm install -g tsc \&& npm install -g concurrently \ && npm install -g typescript 
 
 COPY . .
 
