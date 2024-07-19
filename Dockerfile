@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install npm@8
+RUN npm install npm@6
 
 COPY . .
 
