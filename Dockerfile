@@ -1,12 +1,10 @@
-FROM  node:latest
+FROM --platform=linux/amd64 node:latest
 
 WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install npm@6
-
-RUN npm install typescript -g
+RUN npm install 
 
 COPY . .
 
