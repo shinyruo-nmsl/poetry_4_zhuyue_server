@@ -1,10 +1,10 @@
-FROM  --platform=arm64 node:latest
+FROM  node:latest
 
 WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install -g tsc \&& npm install -g concurrently \ && npm install -g typescript 
+RUN npm install
 
 COPY . .
 
