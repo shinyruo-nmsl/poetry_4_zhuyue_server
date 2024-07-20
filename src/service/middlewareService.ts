@@ -23,8 +23,8 @@ export default function handleMiddleware(
   app: Express,
   routerConfigs: RouterConfig[]
 ) {
-  app.use(bodyParser.urlencoded({ extended: true }));
-  app.use(express.urlencoded({ extended: true }));
+  app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
+  app.use(express.urlencoded({ extended: true, limit: "50mb" }));
   app.use(express.json());
 
   const { trace } = MiddleWare.middleWares;
