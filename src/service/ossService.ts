@@ -14,8 +14,8 @@ export default class OSSServer {
   static async uploadBase64Img(base64: string, fileName: string) {
     const buffer = base64ToBuffer(base64);
 
-    if (buffer.length > 1024 * 1024 * 10) {
-      throw new CustomError("图片大小不能超过10M", "validate");
+    if (buffer.length > 1024 * 1024 * 200) {
+      throw new CustomError("图片大小不能超过50M", "validate");
     }
 
     try {

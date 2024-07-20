@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require("sequelize");
 
-const seq1 = new Sequelize("poems", "azureadmin", "Az12345678", {
-  host: "zymysql.mysql.database.azure.com",
+const seq1 = new Sequelize("poems", "root", "$Hujm930906", {
+  host: "47.96.86.157",
   port: 3306,
   dialect: "mysql",
   benchmark: true,
@@ -28,7 +28,7 @@ seq1
   );
 
 const seq2 = new Sequelize("poems", "root", "$Hujm930906", {
-  host: "47.96.86.157",
+  host: "47.101.139.236",
   port: 3306,
   dialect: "mysql",
   benchmark: true,

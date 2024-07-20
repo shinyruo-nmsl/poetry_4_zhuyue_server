@@ -59,7 +59,6 @@ const getAIImagesRouter: RouteConfig = {
       res: Response
     ) {
       const { prompt } = req.body;
-      console.log("prompt", prompt);
       const images = await getAIImages(req.role!, req.userId!, prompt);
       res.json({ images }).end();
     },

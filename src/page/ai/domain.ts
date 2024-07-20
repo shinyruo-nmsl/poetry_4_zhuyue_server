@@ -60,8 +60,6 @@ async function validateUserDaliyPromotCount(
 
   const promptCount = getUserDaliyPromotCount(category, role);
 
-  console.log("promptCount", promptCount);
-
   const { status } = await RedisServer.limitCount(
     category + "__" + userID,
     promptCount,
