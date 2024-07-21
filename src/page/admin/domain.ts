@@ -19,21 +19,28 @@ export interface UsersQuery<
 
 export async function searchUserLoginInfo(query: UsersQuery) {
   const { type, value } = query;
+
   let records: Pagination<UserLoginModelFields>;
+
   switch (type) {
     case "userId":
       records = await queryUsersById({ ...query, userId: value });
+      break;
     case "account":
       records = await queryUsersByAccount({ ...query, account: value });
+      break;
     case "userName":
       records = await queryUsersByName({ ...query, userName: value });
+      break;
     case "role":
       records = await queryUserByRole({ ...query, role: value as Role });
+      break;
     case "platform":
       records = await queryUserByPlatform({
         ...query,
         platform: value as Platform,
       });
+      break;
   }
 
   return {
