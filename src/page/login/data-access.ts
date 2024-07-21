@@ -1,6 +1,6 @@
 import UserLoginModel from "@/model/userLoginModel";
 import { CustomError } from "@/service/errorService";
-import { Role } from "@/global-type/user";
+import { Platform, Role } from "@/global-type/user";
 
 export async function findUserByName(account: string) {
   try {
@@ -18,10 +18,11 @@ export type UserRegistParam = {
   account: string;
   password: string;
   role?: Role;
+  platform?: Platform;
 };
 
 export async function addNewUser(params: UserRegistParam) {
-  const { userId, account, password, role } = params;
+  const { userId, account, password, role, platform = "pc" } = params;
 
   try {
     await UserLoginModel.model.create({
@@ -29,6 +30,7 @@ export async function addNewUser(params: UserRegistParam) {
       account,
       password,
       role,
+      platform,
     });
   } catch (error) {
     throw new CustomError("用户名重复~", "validate", error);

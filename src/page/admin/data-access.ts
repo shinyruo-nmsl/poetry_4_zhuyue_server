@@ -1,7 +1,7 @@
 import { Op } from "sequelize";
 
 import { PaginationQuery } from "@/global-type/model";
-import { Role } from "@/global-type/user";
+import { Platform, Role } from "@/global-type/user";
 import UserLoginModel from "@/model/userLoginModel";
 import { CustomError } from "@/service/errorService";
 import { queryPaginationRecords } from "@/service/modelService";
@@ -42,6 +42,16 @@ export async function queryUserByRole(query: PaginationQuery & { role: Role }) {
   const { limit, pageNo, role } = query;
 
   const where = role ? { role } : {};
+
+  return queryPaginationRecords(UserLoginModel.model, where, limit, pageNo);
+}
+
+export async function queryUserByPlatform(
+  query: PaginationQuery & { platform: Platform }
+) {
+  const { limit, pageNo, platform } = query;
+
+  const where = platform ? { platform } : {};
 
   return queryPaginationRecords(UserLoginModel.model, where, limit, pageNo);
 }

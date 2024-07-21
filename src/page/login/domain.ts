@@ -74,6 +74,7 @@ export async function validateMiniUserLogin({ code }: { code: string }) {
       account: openid,
       password: "",
       role: "ordinary",
+      platform: "mini",
     });
   } else {
     userId = user.user_id;

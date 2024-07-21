@@ -10,9 +10,16 @@ export async function getUserLoginInfoById(_userId: string) {
     return { role: "visitor" as Role };
   }
 
-  const { user_name: userName, user_id: userId, role, account, avatar } = user;
+  const {
+    user_name: userName,
+    user_id: userId,
+    role,
+    account,
+    avatar,
+    platform,
+  } = user;
 
-  return { userName, userId, role, account, avatar };
+  return { userName, userId, role, account, avatar, platform };
 }
 
 export async function getUserLoginInfoByAccount(_account: string) {
@@ -23,9 +30,16 @@ export async function getUserLoginInfoByAccount(_account: string) {
     return { role: "visitor" as Role };
   }
 
-  const { user_name: userName, user_id: userId, role, account, avatar } = user;
+  const {
+    user_name: userName,
+    user_id: userId,
+    role,
+    account,
+    avatar,
+    platform,
+  } = user;
 
-  return { userName, userId, role, account, avatar };
+  return { userName, userId, role, account, avatar, platform };
 }
 
 export async function getUserLoginInfoByToken(token?: string) {

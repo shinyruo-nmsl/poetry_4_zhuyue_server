@@ -1,4 +1,5 @@
 export type Role = "admin" | "superMember" | "member" | "ordinary" | "visitor";
+export type Platform = "pc" | "mini";
 
 export type UserLoginInfo = {
   userId: string;

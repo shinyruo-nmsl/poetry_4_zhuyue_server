@@ -40,4 +40,4 @@ jobs:
             docker rm poetry_server
             docker rmi registry.cn-hangzhou.aliyuncs.com/jim_hub/poetry_server:latest
             docker pull registry.cn-hangzhou.aliyuncs.com/jim_hub/poetry_server:latest 
-            docker run -p 3333:3333/tcp --name poetry_server --network testnet --network-alias poetry  registry.cn-hangzhou.aliyuncs.com/jim_hub/poetry_server:latest
+            docker run -p 3333:3333/tcp --name poetry_server --network testnet --network-alias poetry -d registry.cn-hangzhou.aliyuncs.com/jim_hub/poetry_server:latest

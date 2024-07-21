@@ -6,11 +6,13 @@ import {
   queryUsersById,
   queryUsersByName,
   queryUserByRole,
+  queryUserByPlatform,
 } from "./data-access";
-import { Role } from "@/global-type/user";
+import { Platform, Role } from "@/global-type/user";
 
-export interface UsersQuery<T = "userId" | "userName" | "account" | "role">
-  extends PaginationQuery {
+export interface UsersQuery<
+  T = "userId" | "userName" | "account" | "role" | "platform"
+> extends PaginationQuery {
   type: T;
   value: T extends "role" ? Role : string;
 }
@@ -27,17 +29,30 @@ export async function searchUserLoginInfo(query: UsersQuery) {
       records = await queryUsersByName({ ...query, userName: value });
     case "role":
       records = await queryUserByRole({ ...query, role: value as Role });
+    case "platform":
+      records = await queryUserByPlatform({
+        ...query,
+        platform: value as Platform,
+      });
   }
 
   return {
     ...records,
     data: records.data.map(
-      ({ user_name: userName, user_id: userId, role, account, avatar }) => ({
+      ({
+        user_name: userName,
+        user_id: userId,
+        role,
+        account,
+        avatar,
+        platform,
+      }) => ({
         userName,
         userId,
         role,
         account,
         avatar,
+        platform,
       })
     ),
   };

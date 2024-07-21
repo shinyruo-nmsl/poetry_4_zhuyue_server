@@ -5,7 +5,7 @@ import {
   InferCreationAttributes,
 } from "sequelize";
 
-import { Role } from "@/global-type/user";
+import { Platform, Role } from "@/global-type/user";
 
 import { UserDatabase } from "./db";
 
@@ -20,6 +20,7 @@ export interface UserLoginModelFields
   password: string;
   avatar: string | null;
   role: Role;
+  platform: Platform;
 }
 
 export default class UserLoginModel {
@@ -52,6 +53,10 @@ export default class UserLoginModel {
         avatar: {
           type: DataTypes.STRING,
           defaultValue: null,
+        },
+        platform: {
+          type: DataTypes.STRING,
+          defaultValue: "pc",
         },
       },
       {

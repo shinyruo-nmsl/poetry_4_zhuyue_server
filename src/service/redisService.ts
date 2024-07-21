@@ -3,7 +3,7 @@ import Logger from "./logService";
 import { CustomError } from "./errorService";
 
 export default class RedisServer {
-  private static _model: RedisClientType = createClient({ url: "redis://redis-server:6379",});
+  private static _model: RedisClientType = createClient();
   private static connected = false;
 
   static async connect() {
