@@ -6,9 +6,17 @@ import Logger from "@/service/logService";
 export default function () {
   return (req: Request, res: Response, next: NextFunction) => {
     req.traceID = v1();
-    Logger.traceEvent({
-      event_id: req.traceID,
-      request: req as any,
+    Logger.traceMessage(`request start --${req.path} --${req.traceID}`, {
+      level: "info",
+      tags: {
+        entryPoint: req.path,
+      },
+      extra: {
+        traceID: req.traceID,
+        method: req.method,
+        query: req.query,
+        body: req.body,
+      },
     });
     next();
   };
