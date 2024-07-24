@@ -101,7 +101,7 @@ export class AIServer {
       ]);
       return new GPTStream(stream);
     } catch (error) {
-      throw error;
+      throw new CustomError("gpt连接异常", "other", error);
     }
   }
 }
