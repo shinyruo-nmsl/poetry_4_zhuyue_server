@@ -12,6 +12,12 @@ export default class Logger {
     return Sentry.captureEvent(event);
   }
 
+  static traceMessage(
+    ...params: Parameters<(typeof Sentry)["captureMessage"]>
+  ) {
+    return Sentry.captureMessage(...params);
+  }
+
   static traceError(
     ...params: Parameters<(typeof Sentry)["captureException"]>
   ) {

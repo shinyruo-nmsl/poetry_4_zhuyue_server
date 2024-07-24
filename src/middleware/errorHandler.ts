@@ -8,7 +8,16 @@ export default function () {
     const rawError =
       error instanceof CustomError && error.error ? error.error : error;
     Logger.traceError(rawError, {
-      event_id: req.traceID,
+      level: "error",
+      tags: {
+        entryPoint: req.path,
+      },
+      extra: {
+        traceID: req.traceID,
+        method: req.method,
+        query: req.query,
+        body: req.body,
+      },
     });
     if (error instanceof CustomError) {
       switch (error.errorCode) {

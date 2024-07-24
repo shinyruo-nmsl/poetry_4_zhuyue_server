@@ -1,3 +1,16 @@
 {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "workbench.iconTheme": "fira-code-material-icon-theme",
+  "editor.fontFamily": "'Fira Code', Menlo, Monaco, 'Courier New', monospace",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "editor.fontSize": 11,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.wordWrapColumn": 110,
+
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.autopep8",
+    "editor.formatOnSave": true
+  }
 }

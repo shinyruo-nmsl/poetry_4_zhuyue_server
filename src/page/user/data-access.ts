@@ -68,7 +68,6 @@ export async function updateUserDisplayInfo(info: UserDisplayInfo) {
     await t.commit();
   } catch (error) {
     await t.rollback();
-    Logger.traceError(error);
     throw new CustomError("修改失败~", "other", error);
   }
 }
