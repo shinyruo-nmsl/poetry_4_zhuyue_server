@@ -28,7 +28,6 @@ export default class DataBase {
         dialect: "mysql",
         benchmark: true,
         dialectOptions: {
-          encrypt: true,
           ssl: {
             rejectUnauthorized: false,
           },

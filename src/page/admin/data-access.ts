@@ -68,7 +68,6 @@ export async function updateUserRole(userId: string, role: Role) {
     await t.commit();
   } catch (error) {
     await t.rollback();
-    Logger.traceError(error);
     throw new CustomError("更新失败", "database", error);
   }
 }
@@ -85,7 +84,6 @@ export async function deleteUser(userId: string) {
     await t.commit();
   } catch (error) {
     await t.rollback();
-    Logger.traceError(error);
     throw new CustomError("删除失败", "database", error);
   }
 }

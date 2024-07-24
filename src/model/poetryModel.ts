@@ -46,6 +46,12 @@ export default class PoetryModel {
       {
         freezeTableName: true,
         timestamps: false,
+        indexes: [
+          {
+            type: "FULLTEXT",
+            fields: [ "content"],
+          }
+        ]
       }
     );
   }
