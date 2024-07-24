@@ -16,7 +16,7 @@ export default function () {
         traceID: req.traceID,
         method: req.method,
         query: req.query,
-        body: req.body,
+        body: JSON.stringify(req.body),
       },
     });
     if (error instanceof CustomError) {
