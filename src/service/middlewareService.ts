@@ -1,4 +1,5 @@
 import express, { Express, Router, Response, NextFunction } from "express";
+import * as Sentry from "@sentry/node";
 import bodyParser from "body-parser";
 import { Request } from "../global-type/request";
 import MiddleWare, { MiddlewaresConfig } from "../middleware";

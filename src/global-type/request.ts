@@ -5,6 +5,7 @@ export type Request<T extends Partial<{ body: any; query: any }> = {}> =
   _Request<any, any, T["body"], T["query"]> & { traceID: string } & Partial<{
       userId: string;
       role: Role;
+      file: Express.Multer.File;
     }>;
 
 export type HttpMethod =

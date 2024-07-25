@@ -1,6 +1,6 @@
 import OSS from "ali-oss";
 
-import { base64ToBuffer, base64URLtoFile } from "./fileService";
+import { base64ToBuffer } from "./fileService";
 import { CustomError } from "./errorService";
 
 export default class OSSServer {

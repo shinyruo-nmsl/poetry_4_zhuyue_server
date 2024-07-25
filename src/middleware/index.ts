@@ -2,6 +2,7 @@ import traceHandler from "./traceHandler";
 import overtimeHandler from "./overtimeHandler";
 import authHandler from "./authHandler";
 import sseHandler from "./sseHandler";
+import uploadHandler from "./uploadHandler";
 import errorHandler from "./errorHandler";
 
 type Middlewares = typeof MiddleWare.middleWares;
@@ -21,6 +22,7 @@ export default class MiddleWare {
     trace: traceHandler,
     auth: authHandler,
     sse: sseHandler,
+    upload: uploadHandler,
     overtime: overtimeHandler,
     error: errorHandler,
   };

@@ -9,6 +9,7 @@ const uploadBase64ImgRoute: RouteConfig = {
   middlewareConfig: {
     option: {
       auth: { role: "ordinary" },
+      upload: { fileField: "img" },
     },
     async customHandle(
       req: Request<{ body: { base64Img: string; fileName?: string } }>,
