@@ -11,12 +11,14 @@ export default function () {
       level: "error",
       tags: {
         entryPoint: req.path,
+        reqTraceID: req.traceID,
+        userID: req.userId,
       },
       extra: {
-        traceID: req.traceID,
         method: req.method,
         query: req.query,
-        body: req.body,
+        body: JSON.stringify(req.body),
+        headers: req.headers,
       },
     });
     if (error instanceof CustomError) {

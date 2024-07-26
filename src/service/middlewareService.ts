@@ -1,9 +1,8 @@
 import express, { Express, Router, Response, NextFunction } from "express";
-import * as Sentry from "@sentry/node";
 import bodyParser from "body-parser";
-import { Request } from "../global-type/request";
-import MiddleWare, { MiddlewaresConfig } from "../middleware";
-import { HttpMethod } from "../global-type/request";
+import { Request } from "@/global-type/request";
+import { HttpMethod } from "@/global-type/request";
+import MiddleWareServer, { MiddlewaresConfig } from "@/middleware";
 
 export type RouteConfig = {
   method: HttpMethod;
@@ -24,12 +23,12 @@ export default function handleMiddleware(
   app: Express,
   routerConfigs: RouterConfig[]
 ) {
+  const { trace, cors, error } = MiddleWareServer.middleWares;
+
+  app.use(cors());
   app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
   app.use(express.urlencoded({ extended: true, limit: "50mb" }));
   app.use(express.json({ limit: "50mb" }));
-
-  const { trace } = MiddleWare.middleWares;
-  app.use(trace());
 
   for (const cfg of routerConfigs) {
     const router = express.Router();
@@ -39,7 +38,6 @@ export default function handleMiddleware(
     app.use(cfg.path, router);
   }
 
-  const { error } = MiddleWare.middleWares;
   app.use(error());
 }
 
@@ -66,10 +64,15 @@ export function handleRouterMiddleware(router: Router, config: RouteConfig) {
 
 function handleOptionalMiddleware(router: Router, config: RouteConfig) {
   const { method, path, middlewareConfig } = config;
-  const middlewares = MiddleWare.middleWares;
+  const middlewares = MiddleWareServer.middleWares;
   const optionKeys = Object.keys(middlewareConfig.option || {});
 
-  // 有些中间件是必须处理的，如果用户没有配置，则默认处理
+  // 如果没有设置权限，则在这里运行trace
+  if (!optionKeys.includes("auth")) {
+    router[method](path, middlewares.trace());
+  }
+
+  // 如果没有配置超时限制，则默认处理
   if (!optionKeys.includes("overtime")) {
     router[method](path, middlewares.overtime());
   }
@@ -80,4 +83,9 @@ function handleOptionalMiddleware(router: Router, config: RouteConfig) {
       router[method](path, handler(middlewareConfig.option[k]));
     }
   });
+
+  // 如果设置了权限，则在这里运行trace，目的是为了获取userID
+  if (optionKeys.includes("auth")) {
+    router[method](path, middlewares.trace());
+  }
 }

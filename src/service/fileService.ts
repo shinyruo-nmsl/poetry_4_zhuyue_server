@@ -22,10 +22,12 @@ export function base64toFile(base64: string) {
   return new File([u8arr], "", { type: mime });
 }
 
-export type MulterOptions = Exclude<multer.Options, "storage">;
-export class MulterServer {
+export type UploadOptions = Exclude<multer.Options, "storage">;
+
+export type UploadFile = Express.Multer.File;
+export class UploadServer {
   private static storage = multer.memoryStorage();
-  static upload(config: MulterOptions) {
+  static createUploadMiddleware(config: UploadOptions) {
     return multer({ storage: this.storage, ...config });
   }
 }

@@ -19,9 +19,7 @@ const getGPTContentRouter: RouteConfig = {
       overtime: { timeout: 1000 * 60 * 3 },
     },
     async customHandle(
-      req: Request & {
-        body: { messages: AIChatMessage[]; serialize: boolean };
-      },
+      req: Request<{ body: { messages: AIChatMessage[]; serialize: boolean } }>,
       res: Response
     ) {
       const { serialize, messages } = req.body;
@@ -55,7 +53,7 @@ const getAIImagesRouter: RouteConfig = {
       overtime: { timeout: 1000 * 60 * 3 },
     },
     async customHandle(
-      req: Request & { body: { prompt: AIImagePrompt } },
+      req: Request<{ body: { prompt: AIImagePrompt } }>,
       res: Response
     ) {
       const { prompt } = req.body;
@@ -75,9 +73,9 @@ const getAIParseImageStreamRouter: RouteConfig = {
       overtime: { timeout: 1000 * 60 * 3 },
     },
     async customHandle(
-      req: Request & {
+      req: Request<{
         body: { message: AIParseImageMessage; serialize: boolean };
-      },
+      }>,
       res: Response
     ) {
       const { serialize, message } = req.body;
