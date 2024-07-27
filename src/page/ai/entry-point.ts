@@ -9,7 +9,7 @@ import {
 } from "@/service/aiService";
 import { getAIChatStream, getAIImages, getAIParseImageStream } from "./domain";
 
-const getGPTContentRouter: RouteConfig = {
+const getGPTContentRoute: RouteConfig = {
   method: "post",
   path: "/gptContent",
   middlewareConfig: {
@@ -19,9 +19,9 @@ const getGPTContentRouter: RouteConfig = {
       overtime: { timeout: 1000 * 60 * 3 },
     },
     async customHandle(
-      req: Request & {
+      req: Request<{
         body: { messages: AIChatMessage[]; serialize: boolean };
-      },
+      }>,
       res: Response
     ) {
       const { serialize, messages } = req.body;
@@ -46,7 +46,7 @@ const getGPTContentRouter: RouteConfig = {
   },
 };
 
-const getAIImagesRouter: RouteConfig = {
+const getAIImagesRoute: RouteConfig = {
   method: "post",
   path: "/images",
   middlewareConfig: {
@@ -55,7 +55,7 @@ const getAIImagesRouter: RouteConfig = {
       overtime: { timeout: 1000 * 60 * 3 },
     },
     async customHandle(
-      req: Request & { body: { prompt: AIImagePrompt } },
+      req: Request<{ body: { prompt: AIImagePrompt } }>,
       res: Response
     ) {
       const { prompt } = req.body;
@@ -65,7 +65,7 @@ const getAIImagesRouter: RouteConfig = {
   },
 };
 
-const getAIParseImageStreamRouter: RouteConfig = {
+const getAIParseImageStreamRoute: RouteConfig = {
   method: "post",
   path: "/parseImageContent",
   middlewareConfig: {
@@ -75,9 +75,9 @@ const getAIParseImageStreamRouter: RouteConfig = {
       overtime: { timeout: 1000 * 60 * 3 },
     },
     async customHandle(
-      req: Request & {
+      req: Request<{
         body: { message: AIParseImageMessage; serialize: boolean };
-      },
+      }>,
       res: Response
     ) {
       const { serialize, message } = req.body;
@@ -107,7 +107,7 @@ const getAIParseImageStreamRouter: RouteConfig = {
 };
 
 export default [
-  getGPTContentRouter,
-  getAIImagesRouter,
-  getAIParseImageStreamRouter,
+  getGPTContentRoute,
+  getAIImagesRoute,
+  getAIParseImageStreamRoute,
 ];

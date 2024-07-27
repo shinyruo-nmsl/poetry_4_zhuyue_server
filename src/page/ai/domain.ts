@@ -12,13 +12,6 @@ import { CustomError } from "@/service/errorService";
 
 import { USER_DALIY_PROMOT_COUNT, AICategory } from "./config";
 
-function getUserDaliyPromotCount(
-  category: AICategory,
-  role: Exclude<Role, "visitor">
-) {
-  return USER_DALIY_PROMOT_COUNT[category][role];
-}
-
 export async function getAIChatStream(
   role: Role,
   userID: string,
@@ -47,6 +40,13 @@ export async function getAIParseImageStream(
   await validateUserDaliyPromotCount("parseImage", role, userID);
 
   return AIServer.createParseImageStream(message);
+}
+
+function getUserDaliyPromotCount(
+  category: AICategory,
+  role: Exclude<Role, "visitor">
+) {
+  return USER_DALIY_PROMOT_COUNT[category][role];
 }
 
 async function validateUserDaliyPromotCount(
