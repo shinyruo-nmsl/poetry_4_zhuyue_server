@@ -1,10 +1,12 @@
+import corsHandler from "./corsHandler";
 import traceHandler from "./traceHandler";
 import overtimeHandler from "./overtimeHandler";
 import authHandler from "./authHandler";
 import sseHandler from "./sseHandler";
+import uploadHandler from "./uploadHandler";
 import errorHandler from "./errorHandler";
 
-type Middlewares = typeof MiddleWare.middleWares;
+type Middlewares = typeof MiddleWareServer.middleWares;
 
 type MiddlewaresKeys = keyof Middlewares;
 
@@ -16,11 +18,13 @@ export type MiddlewaresConfig = Partial<{
     : k]: GetKeyParam<k>;
 }>;
 
-export default class MiddleWare {
+export default class MiddleWareServer {
   static readonly middleWares = {
+    cors: corsHandler,
     trace: traceHandler,
     auth: authHandler,
     sse: sseHandler,
+    upload: uploadHandler,
     overtime: overtimeHandler,
     error: errorHandler,
   };

@@ -19,9 +19,7 @@ const getGPTContentRoute: RouteConfig = {
       overtime: { timeout: 1000 * 60 * 3 },
     },
     async customHandle(
-      req: Request<{
-        body: { messages: AIChatMessage[]; serialize: boolean };
-      }>,
+      req: Request<{ body: { messages: AIChatMessage[]; serialize: boolean } }>,
       res: Response
     ) {
       const { serialize, messages } = req.body;

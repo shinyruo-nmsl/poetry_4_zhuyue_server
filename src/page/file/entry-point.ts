@@ -2,6 +2,7 @@ import { v1 } from "uuid";
 import { RouteConfig } from "@/service/middlewareService";
 import { Request } from "@/global-type/request";
 import OSSServer from "@/service/ossService";
+import { CustomError } from "@/service/errorService";
 
 const uploadBase64ImgRoute: RouteConfig = {
   method: "post",
@@ -21,4 +22,25 @@ const uploadBase64ImgRoute: RouteConfig = {
   },
 };
 
-export default [uploadBase64ImgRoute];
+const uploadImgFileRoute: RouteConfig = {
+  method: "post",
+  path: "/uploadImgFile",
+  middlewareConfig: {
+    option: {
+      auth: { role: "ordinary" },
+      upload: { fileField: "file" },
+    },
+    async customHandle(req: Request, res) {
+      console.log("req.file", req.file);
+      const fieldName = v1();
+      const buffer = req.file?.buffer;
+      if (!buffer) {
+        throw new CustomError("上传失败", "upload");
+      }
+      const url = await OSSServer.uploadImgBuffer(buffer, fieldName);
+      res.send({ url }).end();
+    },
+  },
+};
+
+export default [uploadBase64ImgRoute, uploadImgFileRoute];

@@ -5,6 +5,7 @@ export type ErrorCode =
   | "auth"
   | "login"
   | "overtime"
+  | "upload"
   | "other";
 
 export class CustomError extends Error {
