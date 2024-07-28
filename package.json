@@ -5,10 +5,9 @@
   "main": "start.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "NODE_ENV=development PRETTY_PRINT=true nodemon -r tsconfig-paths/register -r dotenv/config start.ts",
-    "build": "NODE_ENV=production tsc && tsc-alias && node -r dotenv/config .dist/start.js",
+    "start:dev": "NODE_ENV=development PRETTY_PRINT=true nodemon -r tsconfig-paths/register -r dotenv/config -r dotenv-flow/config start.ts",
     "tsc": "tsc && tsc-alias",
-    "start:prod": "NODE_ENV=production node -r dotenv/config .dist/start.js"
+    "start:prod": "NODE_ENV=production node -r dotenv/config -r dotenv-flow/config .dist/start.js"
   },
   "repository": {
     "type": "git",
