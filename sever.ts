@@ -1,5 +1,6 @@
 import { Server } from "http";
 import express from "express";
+import dotenvFlow from "dotenv-flow";
 
 import routers from "@/page";
 import handleMiddleware from "@/service/middlewareService";
@@ -9,6 +10,7 @@ import Logger from "@/service/logService";
 let connection: Server;
 
 export async function startWebServer() {
+  dotenvFlow.config();
   Logger.init();
   RedisServer.connect();
 

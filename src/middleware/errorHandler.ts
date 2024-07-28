@@ -7,7 +7,7 @@ export default function () {
   return (error: Error, req: Request, res: Response, next: NextFunction) => {
     const rawError =
       error instanceof CustomError && error.error ? error.error : error;
-    Logger.traceError(rawError, {
+    Logger.traceError(rawError, () => ({
       level: "error",
       tags: {
         entryPoint: req.path,
@@ -20,7 +20,7 @@ export default function () {
         body: JSON.stringify(req.body),
         headers: req.headers,
       },
-    });
+    }));
     if (error instanceof CustomError) {
       switch (error.errorCode) {
         case "database":

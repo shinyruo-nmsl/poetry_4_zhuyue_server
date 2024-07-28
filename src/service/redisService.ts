@@ -1,10 +1,9 @@
 import { createClient, RedisClientType } from "redis";
-import Logger from "./logService";
 import { CustomError } from "./errorService";
 
 export default class RedisServer {
   private static _model: RedisClientType = createClient({
-    url: "redis://redis-server:6379",
+    url: process.env.REDIS_URL,
   });
   private static connected = false;
 

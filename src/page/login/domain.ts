@@ -53,8 +53,7 @@ async function getWXLoginInfo({ code }: { code: string }) {
     });
 
     if (!res.data.openid) {
-      Logger.traceError(res);
-      throw new Error(JSON.stringify(res));
+      throw new CustomError("无法获取微信openid~", "login");
     }
     return res.data;
   } catch (err) {

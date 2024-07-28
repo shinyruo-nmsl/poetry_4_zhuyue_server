@@ -23,7 +23,7 @@ export default function handleMiddleware(
   app: Express,
   routerConfigs: RouterConfig[]
 ) {
-  const { trace, cors, error } = MiddleWareServer.middleWares;
+  const { cors, error } = MiddleWareServer.middleWares;
 
   app.use(cors());
   app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));

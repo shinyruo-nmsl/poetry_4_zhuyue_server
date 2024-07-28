@@ -6,7 +6,7 @@ import Logger from "@/service/logService";
 export default function () {
   return (req: Request, res: Response, next: NextFunction) => {
     req.traceID = v1();
-    Logger.traceMessage(`request start --${req.path}`, {
+    Logger.traceMessage(`request start --${req.path}`, () => ({
       level: "info",
       tags: {
         entryPoint: req.path,
@@ -19,7 +19,7 @@ export default function () {
         body: JSON.stringify(req.body),
         headers: req.headers,
       },
-    });
+    }));
     next();
   };
 }

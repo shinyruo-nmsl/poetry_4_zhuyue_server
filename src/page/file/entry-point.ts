@@ -31,7 +31,6 @@ const uploadImgFileRoute: RouteConfig = {
       upload: { fileField: "file" },
     },
     async customHandle(req: Request, res) {
-      console.log("req.file", req.file);
       const fieldName = v1();
       const buffer = req.file?.buffer;
       if (!buffer) {
