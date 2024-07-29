@@ -1,8 +1,8 @@
 import { RouteConfig } from "@/service/middlewareService";
 import { Request } from "@/global-type/request";
 import { Role } from "@/global-type/user";
-import { deleteUser, updateUserRole } from "./data-access";
-import { searchUserLoginInfo, UsersQuery } from "./domain";
+import { deleteUser, updateUserRole, UserQuery } from "./data-access";
+import { searchUserLoginInfo } from "./domain";
 
 const searchUserLoginInfoRoute: RouteConfig = {
   method: "get",
@@ -11,7 +11,7 @@ const searchUserLoginInfoRoute: RouteConfig = {
     option: {
       auth: { role: "admin" },
     },
-    async customHandle(req: Request<{ query: UsersQuery }>, res) {
+    async customHandle(req: Request<{ query: UserQuery }>, res) {
       const userInfo = await searchUserLoginInfo({
         ...req.query,
         limit: Number(req.query.limit),

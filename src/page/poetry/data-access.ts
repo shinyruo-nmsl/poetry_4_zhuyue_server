@@ -14,6 +14,7 @@ export async function queryPoetriesByAuthorAndKeyWords(
 ): Promise<Pagination<PoetryModelFields>> {
   const { limit, pageNo, keyword1, keyword2, author } = query;
 
+  // 使用FULLTEXT索引+子查询，但实验结果平均查询效率更低
   // const keywords =
   //   keyword1 && keyword2 ? `${keyword1} | ${keyword2}` : keyword1 || keyword2;
 
@@ -52,6 +53,7 @@ export async function queryPoetriesByAuthorAndKeyWords(
   //   limit,
   //   pageNo,
   // };
+
   const content = {
     [Op.or]: [
       {

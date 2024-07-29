@@ -6,52 +6,37 @@ import UserLoginModel from "@/model/userLoginModel";
 import { CustomError } from "@/service/errorService";
 import { queryPaginationRecords } from "@/service/modelService";
 import RedisServer from "@/service/redisService";
-import Logger from "@/service/logService";
 
-export async function queryUsersByAccount(
-  query: PaginationQuery & { account: string }
-) {
-  const { limit, pageNo, account } = query;
-
-  const where = account ? { account: { [Op.like]: `%${account}%` } } : {};
-
-  return queryPaginationRecords(UserLoginModel.model, where, limit, pageNo);
+export interface UserQuery extends PaginationQuery {
+  searchTerm?: string;
+  role?: Role;
+  platform?: Platform;
 }
 
-export async function queryUsersById(
-  query: PaginationQuery & { userId: string }
-) {
-  const { limit, pageNo, userId } = query;
+export async function queryUser(query: UserQuery) {
+  const { limit, pageNo, role, platform, searchTerm } = query;
 
-  const where = userId ? { user_id: { [Op.like]: `%${userId}%` } } : {};
+  const whereConditions = [];
 
-  return queryPaginationRecords(UserLoginModel.model, where, limit, pageNo);
-}
+  if (role) {
+    whereConditions.push({ role });
+  }
 
-export async function queryUsersByName(
-  query: PaginationQuery & { userName: string }
-) {
-  const { limit, pageNo, userName } = query;
+  if (platform) {
+    whereConditions.push({ platform });
+  }
 
-  const where = userName ? { user_name: { [Op.like]: `%${userName}%` } } : {};
+  if (searchTerm) {
+    whereConditions.push({
+      [Op.or]: [
+        { account: { [Op.like]: `${searchTerm}%` } },
+        { user_name: { [Op.like]: `${searchTerm}%` } },
+        { user_id: { [Op.like]: `${searchTerm}%` } },
+      ],
+    });
+  }
 
-  return queryPaginationRecords(UserLoginModel.model, where, limit, pageNo);
-}
-
-export async function queryUserByRole(query: PaginationQuery & { role: Role }) {
-  const { limit, pageNo, role } = query;
-
-  const where = role ? { role } : {};
-
-  return queryPaginationRecords(UserLoginModel.model, where, limit, pageNo);
-}
-
-export async function queryUserByPlatform(
-  query: PaginationQuery & { platform: Platform }
-) {
-  const { limit, pageNo, platform } = query;
-
-  const where = platform ? { platform } : {};
+  const where = { [Op.and]: whereConditions };
 
   return queryPaginationRecords(UserLoginModel.model, where, limit, pageNo);
 }
