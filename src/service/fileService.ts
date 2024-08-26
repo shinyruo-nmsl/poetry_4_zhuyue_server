@@ -27,6 +27,7 @@ export type UploadOptions = Exclude<multer.Options, "storage">;
 export type UploadFile = Express.Multer.File;
 export class UploadServer {
   private static storage = multer.memoryStorage();
+
   static createUploadMiddleware(config: UploadOptions) {
     return multer({ storage: this.storage, ...config });
   }

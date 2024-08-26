@@ -6,7 +6,7 @@ import {
   CreationOptional,
 } from "sequelize";
 
-import { PoemsDataBase } from "./db";
+import { PoemsDataBase } from "./_db";
 
 export interface PoetryModelFields
   extends Model<
@@ -49,9 +49,9 @@ export default class PoetryModel {
         indexes: [
           {
             type: "FULLTEXT",
-            fields: [ "content"],
-          }
-        ]
+            fields: ["content"],
+          },
+        ],
       }
     );
   }

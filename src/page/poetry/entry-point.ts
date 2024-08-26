@@ -1,11 +1,11 @@
 import { Response } from "express";
 import { Request } from "@/global-type/request";
+import { RouteConfig } from "@/service/middlewareService";
+import { CustomError } from "@/service/errorService";
 import {
   queryPoetriesByAuthorAndKeyWords,
   AuthorAndKeyWordsQuery,
 } from "./data-access";
-import { RouteConfig } from "@/service/middlewareService";
-import { CustomError } from "@/service/errorService";
 
 type GetPoetriesByAuthorAndKeyWordsReq = Request<{
   query: AuthorAndKeyWordsQuery & { limit: string; pageNo: string };

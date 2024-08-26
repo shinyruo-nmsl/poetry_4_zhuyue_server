@@ -7,7 +7,7 @@ import {
 
 import { Platform, Role } from "@/global-type/user";
 
-import { UserDatabase } from "./db";
+import { UserDatabase } from "./_db";
 
 export interface UserLoginModelFields
   extends Model<

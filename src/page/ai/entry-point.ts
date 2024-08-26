@@ -16,7 +16,7 @@ const getGPTContentRoute: RouteConfig = {
     option: {
       auth: { role: "ordinary", accurate: true },
       sse: true,
-      overtime: { timeout: 1000 * 60 * 3 },
+      overtime: { timeout: 1000 * 60 * 1 },
     },
     async customHandle(
       req: Request<{ body: { messages: AIChatMessage[]; serialize: boolean } }>,
@@ -70,7 +70,7 @@ const getAIParseImageStreamRoute: RouteConfig = {
     option: {
       auth: { role: "ordinary", accurate: true },
       sse: true,
-      overtime: { timeout: 1000 * 60 * 3 },
+      overtime: { timeout: 1000 * 60 * 1 },
     },
     async customHandle(
       req: Request<{

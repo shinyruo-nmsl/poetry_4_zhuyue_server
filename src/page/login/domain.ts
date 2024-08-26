@@ -5,7 +5,6 @@ import axios from "axios";
 import { CustomError } from "@/service/errorService";
 import { findUserByName, addNewUser } from "./data-access";
 import type { UserRegistParam } from "./data-access";
-import Logger from "@/service/logService";
 
 export async function validateUserLogin(params: {
   account: string;
@@ -29,36 +28,6 @@ export async function validateUserLogin(params: {
   });
 
   return token;
-}
-
-async function getWXLoginInfo({ code }: { code: string }) {
-  try {
-    const res = await axios.get<
-      any,
-      {
-        data: {
-          session_key?: string;
-          openid?: string;
-          errcode: number;
-          errmsg: string;
-        };
-      }
-    >("https://api.weixin.qq.com/sns/jscode2session", {
-      params: {
-        js_code: code,
-        appid: process.env.WX_APP_ID,
-        secret: process.env.WX_APP_SECRET,
-        grant_type: "authorization_code",
-      },
-    });
-
-    if (!res.data.openid) {
-      throw new CustomError("无法获取微信openid~", "login");
-    }
-    return res.data;
-  } catch (err) {
-    throw new CustomError("登录校验失败~", "login", err);
-  }
 }
 
 export async function validateMiniUserLogin({ code }: { code: string }) {
@@ -98,5 +67,37 @@ export async function registNewUser(params: Omit<UserRegistParam, "userId">) {
 
   if (hashPassword) {
     await addNewUser({ userId, account, password: hashPassword, role });
+  }
+}
+
+type WXLoginRes = {
+  data: {
+    session_key?: string;
+    openid: string;
+    errcode: number;
+    errmsg: string;
+  };
+};
+
+async function getWXLoginInfo({ code }: { code: string }) {
+  try {
+    const res = await axios.get<any, WXLoginRes>(
+      "https://api.weixin.qq.com/sns/jscode2session",
+      {
+        params: {
+          js_code: code,
+          appid: process.env.WX_APP_ID,
+          secret: process.env.WX_APP_SECRET,
+          grant_type: "authorization_code",
+        },
+      }
+    );
+
+    if (!res.data.openid) {
+      throw new CustomError("无法获取微信openid~", "login");
+    }
+    return res.data;
+  } catch (err) {
+    throw new CustomError("登录校验失败~", "login", err);
   }
 }

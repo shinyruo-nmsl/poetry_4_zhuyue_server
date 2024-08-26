@@ -36,10 +36,39 @@ const uploadImgFileRoute: RouteConfig = {
       if (!buffer) {
         throw new CustomError("上传失败", "upload");
       }
-      const url = await OSSServer.uploadImgBuffer(buffer, fieldName);
+      const url = await OSSServer.uploadFileBuffer(buffer, fieldName, ".png");
       res.send({ url }).end();
     },
   },
 };
 
-export default [uploadBase64ImgRoute, uploadImgFileRoute];
+const uploadMarkdownFileRoute: RouteConfig = {
+  method: "post",
+  path: "/uploadMarkdownFile",
+  middlewareConfig: {
+    option: {
+      auth: { role: "ordinary" },
+      upload: { fileField: "file" },
+    },
+    async customHandle(req: Request, res) {
+      const fieldName = v1();
+      const buffer = req.file?.buffer;
+      if (!buffer) {
+        throw new CustomError("上传失败", "upload");
+      }
+      const url = await OSSServer.uploadFileBuffer(
+        buffer,
+        fieldName,
+        ".md",
+        1024 * 1024 * 50
+      );
+      res.send({ url }).end();
+    },
+  },
+};
+
+export default [
+  uploadBase64ImgRoute,
+  uploadImgFileRoute,
+  uploadMarkdownFileRoute,
+];
