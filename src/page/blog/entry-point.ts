@@ -52,11 +52,8 @@ const getBlogArticleByIDRoute: RouteConfig = {
   method: "get",
   path: "/getBlogArticleByID",
   middlewareConfig: {
-    async customHandle(
-      req: Request<{ params: { id: number } }>,
-      res: Response
-    ) {
-      const data = await queryBlogArticleByID(req.params.id);
+    async customHandle(req: Request<{ query: { id: number } }>, res: Response) {
+      const data = await queryBlogArticleByID(req.query.id);
       res.send(data);
     },
   },
