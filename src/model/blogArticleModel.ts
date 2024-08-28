@@ -16,6 +16,8 @@ export interface BlogArticleModelFields
   category: string;
   title: string;
   link: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export default class BlogArticleModel {
@@ -41,12 +43,18 @@ export default class BlogArticleModel {
         link: {
           type: DataTypes.STRING,
         },
+        createdAt: {
+          type: DataTypes.DATE,
+          field: "created_at",
+        },
+        updatedAt: {
+          type: DataTypes.DATE,
+          field: "updated_at",
+        },
       },
       {
         freezeTableName: true,
         timestamps: true,
-        createdAt: "created_at",
-        updatedAt: "updated_at",
       }
     );
   }

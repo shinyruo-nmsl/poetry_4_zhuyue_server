@@ -14,6 +14,8 @@ export interface BlogCategoryModelFields
   > {
   id: number;
   name: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export default class BlogCategoryModel {
@@ -33,12 +35,18 @@ export default class BlogCategoryModel {
         name: {
           type: DataTypes.STRING,
         },
+        createdAt: {
+          type: DataTypes.DATE,
+          field: "created_at",
+        },
+        updatedAt: {
+          type: DataTypes.DATE,
+          field: "updated_at",
+        },
       },
       {
         freezeTableName: true,
         timestamps: true,
-        createdAt: "created_at",
-        updatedAt: "updated_at",
       }
     );
   }

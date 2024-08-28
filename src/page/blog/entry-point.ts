@@ -1,22 +1,26 @@
 import { Response } from "express";
+import dayjs from "dayjs";
 import { Request } from "@/global-type/request";
 import { RouteConfig } from "@/service/middlewareService";
 import {
   BlogArticle,
   addNewBlogCategory,
-  queryBlogCategories,
-  queryAllBlogArticles,
-  queryBlogArticleByID,
   addNewBlogArticle,
   updateBlogArticle,
 } from "./data-access";
+import {
+  getBlogArticleByID,
+  getBlogArticles,
+  getBlogCategories,
+} from "./domain";
 
 const getBlogCategoriesRoute: RouteConfig = {
   method: "get",
   path: "/getBlogCategories",
   middlewareConfig: {
     async customHandle(req: Request, res: Response) {
-      res.send(await queryBlogCategories());
+      const categories = await getBlogCategories();
+      res.send(categories);
     },
   },
 };
@@ -43,7 +47,8 @@ const getBlogArticlesRoute: RouteConfig = {
   path: "/getBlogArticles",
   middlewareConfig: {
     async customHandle(req: Request, res: Response) {
-      res.send(await queryAllBlogArticles());
+      const articles = await getBlogArticles();
+      res.send(articles);
     },
   },
 };
@@ -53,8 +58,8 @@ const getBlogArticleByIDRoute: RouteConfig = {
   path: "/getBlogArticleByID",
   middlewareConfig: {
     async customHandle(req: Request<{ query: { id: number } }>, res: Response) {
-      const data = await queryBlogArticleByID(req.query.id);
-      res.send(data);
+      const article = await getBlogArticleByID(req.query.id);
+      res.send(article);
     },
   },
 };
